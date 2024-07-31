@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zoo du sud{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/header.css') }}">
+{% endblock %}
+{% block body %}
+    <div class="container"> 
+        <header class="header">
+            <img class="logo" src="{{ asset('images/logo.jpg') }}" alt="logo">
+        </header>
+        <div class="navBarre">
+            <nav>
+                <ul class="navListe">
+                    <li class="navList">Accueil</a></li>
+                    <li class="navList">Habitats</a></li>
+                    <li class="navList">Services</a></li>
+                    <li class="navList">Avis</a></li>
+                    <li class="navList">Contact</a></li>
+                    <li class="header2"><i class="fa-solid fa-user-secret"></i> Connexion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
