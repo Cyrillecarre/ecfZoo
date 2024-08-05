@@ -5,21 +5,22 @@ body {
 }
 .container {
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 8rem;
-  background-color: #f8f9fa;
+  height: 80vh;
+  z-index: 10;
 }
 
-.header{
-    display: flex;
-    height: 8rem;
-    align-items: center;
+.header {
+  display: flex;
+  height: 6rem;
+  width: 80%;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #fff;
 }
 
 .logo {
-    width: 8rem;
-    height: 8rem;
+    width: 6rem;
+    height: 6rem;
     border-radius: 50%;
 }
 
@@ -27,7 +28,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: top;
 }
 
 .navListe {
@@ -39,23 +40,15 @@ body {
     align-items: center;
 }
 
-.container2 {
-    height: 80vh;
-    overflow: hidden ;
-}
-
-.titre {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2.5em;
-    color: white;
-}
-
-.image {
+.background-image2 {
+    background-image: url('../images/habitatSavane.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
     width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -2; /* Place background behind content */
 }
