@@ -5,6 +5,8 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
 {% endblock %}
+{% block javascripts %}
+{% endblock %}
 
 {% block body %}
 {% include 'header.html.twig' %}
@@ -36,8 +38,36 @@
         </article>
     </main>
     <img class="image" src="{{ asset('images/top-scratch.png') }}" alt="transition">
+    <main class="presta">
+        
+    </main>
+    <img class="image" src="{{ asset('images/bottom-scratch.png') }}" alt="transition">
+    <main class="prestation">
+        <h1 class="titrePrestation">Nos prestations</h1>
+        <article class="article2">
+            <div class="contentPrestation">
+                <h2 class="titre2">Restauration</h2>
+                <p class="texte">Le Zoo Arcadia propose de nombreux services pour rendre votre visite plus agréable. 
+                Restauration, boutique, animations, découvrez tout ce que nous avons à vous offrir !
+                </p>
+            </div>
+            <div class="contentPrestation">
+                <h2 class="titre2">Boutique</h2>
+                <p class="texte">Le Zoo Arcadia propose de nombreux services pour rendre votre visite plus agréable. 
+                Restauration, boutique, animations, découvrez tout ce que nous avons à vous offrir !
+                </p>
+            </div>
+            <div class="contentPrestation">
+                <h2 class="titre2">Animations</h2>
+                <p class="texte">Le Zoo Arcadia propose de nombreux services pour rendre votre visite plus agréable. 
+                Restauration, boutique, animations, découvrez tout ce que nous avons à vous offrir !
+                </p>
+            </div>
+        </article>
+    </main>
+     <img class="image-overlap" src="{{ asset('images/top-scratch.png') }}" alt="transition">
     <main class="container3">
-        <div class="background-image2"></div>
+        <div class="fondArea">
         <h1 class="titreArea">Les différents habitats</h1>
         <article class="area">
             <div class="area1">
@@ -58,6 +88,7 @@
                 </p>
             </div>
         </article>
+        </div>
     </main>
 {% endblock %}
 
