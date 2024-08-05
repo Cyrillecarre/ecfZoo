@@ -40,15 +40,14 @@ body {
     align-items: center;
 }
 
-.background-image2 {
+.background-image {
     background-image: url('../images/habitatSavane.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     height: 100vh;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: -2; /* Place background behind content */
+    z-index: -10; /* Place background behind content */
 }
