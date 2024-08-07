@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Veterinary{% endblock %}
+
+{% block body %}
+    <h1>Veterinary</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ veterinary.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ veterinary.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ veterinary.roles ? veterinary.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ veterinary.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_veterinary_index') }}">back to list</a>
+
+    <a href="{{ path('app_veterinary_edit', {'id': veterinary.id}) }}">edit</a>
+
+    {{ include('veterinary/_delete_form.html.twig') }}
+{% endblock %}
