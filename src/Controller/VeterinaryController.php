@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/veterinary')]
@@ -23,13 +24,20 @@ class VeterinaryController extends AbstractController
     }
 
     #[Route('/new', name: 'app_veterinary_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $veterinary = new Veterinary();
         $form = $this->createForm(VeterinaryType::class, $veterinary);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $veterinary->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $veterinary,
+                    $form->get('password')->getData()
+                )
+            );
+            $veterinary->setRoles(['ROLE_VETERINARY']);
             $entityManager->persist($veterinary);
             $entityManager->flush();
 

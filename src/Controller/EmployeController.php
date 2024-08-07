@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/employe')]
 class EmployeController extends AbstractController
@@ -23,13 +24,20 @@ class EmployeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_employe_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $employe = new Employe();
         $form = $this->createForm(EmployeType::class, $employe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $employe->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $employe,
+                    $form->get('password')->getData()
+                )
+            );
+            $employe->setRoles(['ROLE_EMPLOYE']);
             $entityManager->persist($employe);
             $entityManager->flush();
 
@@ -38,7 +46,7 @@ class EmployeController extends AbstractController
 
         return $this->render('employe/new.html.twig', [
             'employe' => $employe,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

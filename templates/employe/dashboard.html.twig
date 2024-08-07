@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employe Dashboard{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/employe.css') }}">
+{% endblock %}
+
+{% block body %}
+    <header class="header">
+    <div class="topBarLogo">
+        <img class="logo" src="{{ asset('images/logo.jpg') }}" alt="logo">
+        <nav class="top-bar">
+            <ul class="top-nav">
+                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li>Habitats</a></li>
+                <li>Services</a></li>
+                <li>Avis</a></li>
+                <li>Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul class="sidebar-nav">
+                <li class="sidebarLi">Dashboard</a></li>
+                <li class="sidebarLi">Employés</a></li>
+                <li class="sidebarLi">Vétérinaires</a></li>
+                <li class="sidebarLi">Point Santé</a></li>
+                <li class="sidebarLi">Services</a></li>
+                <li class="sidebarLi">Habitats</a></li>
+                <li class="sidebarLi">Animaux</a></li>
+                <li class="sidebarLi">Horaires</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            {% block content %}
+                {# Your admin-specific content goes here #}
+            {% endblock %}
+        </main>
+    </div>
+{% endblock %}

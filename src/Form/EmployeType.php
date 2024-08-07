@@ -13,7 +13,6 @@ class EmployeType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
             ->add('password')
         ;
     }

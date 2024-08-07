@@ -34,11 +34,27 @@ body {
 .navListe {
     display: flex;
     flex-direction: row;
+    list-style-type: none;
     list-style: none;
     gap: 2rem;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
+
+.navList2 {
+  color: rgba(255, 0, 0, 0.524);
+}
+
+.navList a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navList a:hover {
+  cursor: pointer;
+}
+
 
 .background-image {
     background-image: url('../images/habitatSavane.jpg');
@@ -49,5 +65,5 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: -10; /* Place background behind content */
+    z-index: -10;
 }
