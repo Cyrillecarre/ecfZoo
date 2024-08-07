@@ -1,7 +1,22 @@
 {% extends 'admin/index.html.twig' %}
 
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    {% include 'employe/new.html.twig' %}
+    <button id="viewEmployeesButton">Visualiser les Employés</button>
+    <button id="addEmployeeButton">Ajouter un Employé</button>
+
+                <div id="viewEmployeesSection" style="display: none;">
+                    <h1>Visualiser les Employés</h1>
+                    {% include 'employe/index.html.twig' %}
+                </div>
+
+                <div id="addEmployeeSection" style="display: none;">
+                    <h1>Ajouter un Employé</h1>
+                    {% include 'employe/new.html.twig' %}
+                </div>
 {% endblock %}

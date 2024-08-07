@@ -7,9 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Employe;
 use App\Form\EmployeType;
+use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class AdminController extends AbstractController
 {
@@ -22,7 +24,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/employees', name: 'admin_employees')]
-    public function employees(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function employees(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher, EmployeRepository $employeRepository): Response
     {
         $employe = new Employe();
         $form = $this->createForm(EmployeType::class, $employe);
@@ -44,6 +46,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/employees.html.twig', [
             'form' => $form->createView(),
+            'employes' => $employeRepository->findAll(),
         ]);
     }
 }
