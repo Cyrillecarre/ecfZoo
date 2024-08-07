@@ -2,6 +2,10 @@
 
 {% block title %}Admin Dashboard{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
 {% endblock %}
