@@ -1,0 +1,54 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}Vétérinaires{% endblock %}
+
+{% block content %}
+    <div class="btnMenu">
+    <button id="viewVeterinaryButton" class="btnPrincipal">Visualiser les Vétérinaires</button>
+    <button id="addVeterinaryButton" class="btnPrincipal">Ajouter un Vétérinaire</button>
+    </div>
+
+    <div id="viewVeterinarySection" style="display: none;" class="viewEmploye">
+        <h1>Liste des Vétérinaires</h1>
+        <div class="listeEmploye">
+        {% for veterinary in veterinaries %}
+            <hr class="hrListe">
+            <p>{{ veterinary.email }}</p>
+            <div class="btnPosition">
+                {% include 'veterinary/_delete_form.html.twig' with { 'veterinary': veterinary } %}
+                <button class="btnAction editVeterinary" data-id="{{ veterinary.id }}">Modifier</button>
+            </div>
+            <hr class="hrListe">
+        {% endfor %}
+        </div>
+    </div>
+    <div id="addVeterinarySection" style="display: none;" class="viewEmploye">
+        {{ form_start(form, {'action': path('admin_veterinary_new'), 'method': 'POST', 'attr': {'class': 'custom-form'}}) }}
+            {% for field in form %}
+                {% if field.vars.block_prefixes[0] != 'form_token' %}
+                    <div class="form-group">
+                        {{ form_label(field, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(field, {'attr': {'class': 'form-error-message'}}) }}
+                    </div>
+                {% else %}
+                    {{ form_widget(field) }}
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="btnAction">{{ button_label|default('Enregistrer') }}</button>
+        {{ form_end(form) }}
+    </div>
+    <div id="editVeterinarySection" style="display: none;" class="viewEmploye">
+            <h1>Modifier un vétérinaire</h1>
+            <div id="editVeterinaryForm"></div>
+    </div>
+{% endblock %}

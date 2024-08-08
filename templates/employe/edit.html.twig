@@ -3,11 +3,7 @@
 {% block title %}Edit Employe{% endblock %}
 
 {% block body %}
-    <h1>Edit Employe</h1>
 
-    {{ include('employe/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('employe/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_employe_index') }}">back to list</a>
-
-    {{ include('employe/_delete_form.html.twig') }}
 {% endblock %}
