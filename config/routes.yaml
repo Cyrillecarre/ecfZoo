@@ -11,3 +11,21 @@ app_home:
 admin_employees:
     path: /admin/employees
     controller: App\Controller\AdminController::employees
+
+admin_veterinaries:
+    path: /admin/veterinaries
+    controller: App\Controller\AdminController::veterinaryList
+
+admin_veterinary_new:
+    path: /admin/veterinary/new
+    controller: App\Controller\AdminController::addVeterinary
+    methods: ['GET', 'POST']
+
+admin_veterinary_edit:
+    path: /admin/veterinary/{id}/edit
+    controller: App\Controller\AdminController::editVeterinary
+
+admin_veterinary_delete:
+    path: /admin/veterinary/{id}
+    controller: App\Controller\AdminController::deleteVeterinary
+    methods: ['POST']

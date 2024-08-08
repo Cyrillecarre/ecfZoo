@@ -1,0 +1,153 @@
+.btnMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    gap: 2rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btnPrincipal {
+    display: flex;
+    width: 15rem;
+    height: 3rem;
+    background-color: #A7E0C5;
+    border: 1.3px solid black;
+    box-shadow: 0 0 0 1.5px white;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.btnPrincipal:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1.5px rgb(254, 74, 38);
+}
+
+.listeEmploye {
+    background-color: #969595;
+    padding: 0.5rem;
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
+.hrListe {
+    display: flex;
+    width: 50%;
+    height: 0.1rem;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin: 0 auto;
+}
+
+.viewEmploye {
+    display: flex;
+    flex-direction: row;
+    padding: 14px 20px;
+    margin: 8px 0;
+    width: 100%;
+}
+
+.viewEmploye h1 {
+    display: flex;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+}
+
+.viewEmploye p {
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 400;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.btnPosition {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.btnAction {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+}
+
+/* Style général du formulaire */
+.custom-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #969595;
+    padding: 0.5rem;
+    width: 60%;
+    height: 3rem;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    height: auto;
+}
+
+label[for*="token"] {
+    display: none;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-label {
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 600;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+

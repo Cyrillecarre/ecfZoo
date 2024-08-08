@@ -4,19 +4,39 @@
     <script src="{{ asset('scripts/admin.js') }}" defer></script>
 {% endblock %}
 
-{% block title %}Dashboard{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}Employés{% endblock %}
 
 {% block content %}
-    <button id="viewEmployeesButton">Visualiser les Employés</button>
-    <button id="addEmployeeButton">Ajouter un Employé</button>
+    <div class="btnMenu">
+    <button id="viewEmployeesButton" class="btnPrincipal">Visualiser les Employés</button>
+    <button id="addEmployeeButton" class="btnPrincipal">Ajouter un Employé</button>
+    </div>
 
-                <div id="viewEmployeesSection" style="display: none;">
-                    <h1>Visualiser les Employés</h1>
-                    {% include 'employe/index.html.twig' %}
-                </div>
-
-                <div id="addEmployeeSection" style="display: none;">
-                    <h1>Ajouter un Employé</h1>
-                    {% include 'employe/new.html.twig' %}
-                </div>
+    <div id="viewEmployeesSection" style="display: none;" class="viewEmploye">
+        <h1>Liste des Employés</h1>
+        <div class="listeEmploye">
+        {% for employe in employes %}
+            <hr class="hrListe">
+            <p>{{ employe.email }}</p>
+            <div class="btnPosition">
+                {% include 'employe/_delete_form.html.twig' with { 'employe': employe } %}
+                <button class="btnAction editEmployee" data-id="{{ employe.id }}">Modifier</button>
+            </div>
+            <hr class="hrListe">
+        {% endfor %}
+        </div>
+    </div>
+    <div id="addEmployeeSection" style="display: none;" class="viewEmploye">
+        <h1>Ajouter un Employé</h1>
+        {{ include('employe/_form.html.twig', { form: form }) }}
+    </div>
+    <div id="editEmployeeSection" style="display: none;" class="viewEmploye">
+            <h1>Modifier un Employé</h1>
+            <div id="editEmployeeForm"></div>
+    </div>
 {% endblock %}

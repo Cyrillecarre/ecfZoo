@@ -1,4 +1,14 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'action': path('admin_veterinary_new'), 'method': 'POST', 'attr': {'class': 'custom-form'}}) }}
+    {% for field in form %}
+        {% if field.vars.block_prefixes[0] != 'form_token' %}
+            <div class="form-group">
+                {{ form_label(field, null, {'attr': {'class': 'form-label'}}) }}
+                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(field, {'attr': {'class': 'form-error-message'}}) }}
+            </div>
+        {% else %}
+            {{ form_widget(field) }}
+        {% endif %}
+    {% endfor %}
+    <button class="btnAction">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
