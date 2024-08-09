@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecommandationVeterinary{% endblock %}
+
+{% block body %}
+    <h1>RecommandationVeterinary</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ recommandation_veterinary.id }}</td>
+            </tr>
+            <tr>
+                <th>Food</th>
+                <td>{{ recommandation_veterinary.food }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ recommandation_veterinary.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Medicine</th>
+                <td>{{ recommandation_veterinary.medicine }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ recommandation_veterinary.date ? recommandation_veterinary.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ recommandation_veterinary.state }}</td>
+            </tr>
+            <tr>
+                <th>Recommandation</th>
+                <td>{{ recommandation_veterinary.recommandation }}</td>
+            </tr>
+            <tr>
+                <th>Report</th>
+                <td>{{ recommandation_veterinary.report }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_recommandation_veterinary_index') }}">back to list</a>
+
+    <a href="{{ path('app_recommandation_veterinary_edit', {'id': recommandation_veterinary.id}) }}">edit</a>
+
+    {{ include('recommandation_veterinary/_delete_form.html.twig') }}
+{% endblock %}
