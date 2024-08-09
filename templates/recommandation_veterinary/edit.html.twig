@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit RecommandationVeterinary{% endblock %}
+
+{% block body %}
+    <h1>Edit RecommandationVeterinary</h1>
+
+    {{ include('recommandation_veterinary/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_recommandation_veterinary_index') }}">back to list</a>
+
+    {{ include('recommandation_veterinary/_delete_form.html.twig') }}
+{% endblock %}

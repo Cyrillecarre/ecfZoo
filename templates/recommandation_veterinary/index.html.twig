@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecommandationVeterinary index{% endblock %}
+
+{% block body %}
+    <h1>RecommandationVeterinary index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Medicine</th>
+                <th>Date</th>
+                <th>State</th>
+                <th>Recommandation</th>
+                <th>Report</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recommandation_veterinary in recommandation_veterinaries %}
+            <tr>
+                <td>{{ recommandation_veterinary.id }}</td>
+                <td>{{ recommandation_veterinary.food }}</td>
+                <td>{{ recommandation_veterinary.quantity }}</td>
+                <td>{{ recommandation_veterinary.medicine }}</td>
+                <td>{{ recommandation_veterinary.date ? recommandation_veterinary.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ recommandation_veterinary.state }}</td>
+                <td>{{ recommandation_veterinary.recommandation }}</td>
+                <td>{{ recommandation_veterinary.report }}</td>
+                <td>
+                    <a href="{{ path('app_recommandation_veterinary_show', {'id': recommandation_veterinary.id}) }}">show</a>
+                    <a href="{{ path('app_recommandation_veterinary_edit', {'id': recommandation_veterinary.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_recommandation_veterinary_new') }}">Create new</a>
+{% endblock %}
