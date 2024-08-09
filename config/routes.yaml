@@ -29,3 +29,15 @@ admin_veterinary_delete:
     path: /admin/veterinary/{id}
     controller: App\Controller\AdminController::deleteVeterinary
     methods: ['POST']
+
+area1:
+    path: /area1
+    controller: App\Controller\AreaController::area1
+
+area2:
+    path: /area2
+    controller: App\Controller\AreaController::area2
+
+area3:
+    path: /area3
+    controller: App\Controller\AreaController::area3

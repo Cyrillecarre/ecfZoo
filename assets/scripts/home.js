@@ -58,7 +58,9 @@ window.addEventListener('scroll', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const areaElements = document.querySelectorAll('.area > div');
+
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -67,18 +69,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const observerCallback = (entries, observer) => {
         entries.forEach(entry => {
+            console.log('IntersectionObserver:', entry);
             if (entry.isIntersecting) {
                 entry.target.classList.add('appear');
-                observer.unobserve(entry.target); // Stop observing once the animation is done
+                observer.unobserve(entry.target);
             }
         });
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-    const areaElements = document.querySelectorAll('.area > div');
     areaElements.forEach(element => {
         observer.observe(element);
+    });  
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const areaLinks = document.querySelectorAll('.area-link');
+
+    areaLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            console.log('Link clicked:', link.href);
+            // Redirection manuelle pour tester
+            window.location.href = link.href;
+        });
     });
 });
+
+
 

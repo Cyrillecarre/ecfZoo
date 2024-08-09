@@ -1,10 +1,18 @@
 .titre {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    display: flex;
+    margin-top: -30rem;
+    justify-content: center;
+    text-align: center;
     font-size: 2.5em;
     color: white;
+}
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
 .container2 {
@@ -313,12 +321,13 @@
     justify-content: space-around;
 }
 
-.area1,
-.area2,
-.area3 {
+.area1,.area2,.area3 {
+    position: relative;
     display: grid;
     grid-template-rows: 30% 60%;
     justify-content: center;
+    text-decoration: none;
+    color: white;
     align-items: center;
     width: 30%;
     height: 30rem;
@@ -326,6 +335,12 @@
     gap: 2rem;
     background-color: rgb(137, 197, 200);
     border: 1px solid black;
+    cursor: pointer;
+}
+
+.area a{
+    text-decoration: none;
+    color: white;
 }
 
 .area1 {
@@ -333,6 +348,7 @@
     transform: rotate(5deg);
     background-image: url('../images/Tropical/elephant2.jpg');
     background-size: cover;
+    cursor: pointer;
 }
 
 .area2 {
@@ -346,6 +362,18 @@
     transform: rotate(-5deg);
     background-image: url('../images/Desert/scorpion2.jpg');
     background-size: cover;
+}
+
+.area-link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-decoration: none;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 10;
 }
 
 @keyframes moveUpDown1 {
@@ -396,7 +424,7 @@
 
 .area2.appear {
     opacity: 1;
-    animation: moveUpDown2 1.5s ease-out 0.4s;;
+    animation: moveUpDown2 1.5s ease-out 0.4s;
 }
 
 .area3.appear {
@@ -404,10 +432,5 @@
     animation: moveUpDown3 1.5s ease-out 0.7s;
 }
 
-.pageContainer {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 
-}
 

@@ -12,9 +12,12 @@ use App\Entity\Veterinary;
 use App\Form\VeterinaryType;
 use App\Repository\VeterinaryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use SebastianBergmann\Environment\Console;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Entity\Area;
+use App\Form\AreaType;
+use App\Repository\AreaRepository;
+
 
 
 class AdminController extends AbstractController
@@ -93,7 +96,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/veterinaries', name: 'admin_veterinaries')]
-    public function veterinaryList(Request $request, EntityManagerInterface $entityManager, VeterinaryRepository $veterinaryRepository): Response
+    public function veterinaryList(VeterinaryRepository $veterinaryRepository): Response
     {
     $veterinaries = $veterinaryRepository->findAll();
     
@@ -166,5 +169,31 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_veterinaries', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/admin/area', name: 'admin_area', methods: ['GET'])]
+    public function indexArea(AreaRepository $areaRepository): Response
+    {
+        return $this->render('admin/habitat.html.twig', [
+            'areas' => $areaRepository->findAll(),
+        ]);
+    }
+
+    #[Route('admin/area/{id}/edit', name: 'admin_area_edit', methods: ['GET', 'POST'])]
+    public function editArea(Request $request, Area $area, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AreaType::class, $area);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_area', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/editHabitat.html.twig', [
+            'area' => $area,
+            'form' => $form->createView(),
+        ]);
     }
 }

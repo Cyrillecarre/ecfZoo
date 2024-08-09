@@ -22,6 +22,24 @@ class AreaController extends AbstractController
         ]);
     }
 
+    #[Route('/area1', name: 'area1')]
+    public function area1(): Response
+    {
+        return $this->render('area/area1.html.twig');
+    }
+
+    #[Route('/area2', name: 'area2')]
+    public function area2(): Response
+    {
+        return $this->render('area/area2.html.twig');
+    }
+
+    #[Route('/area3', name: 'area3')]
+    public function area3(): Response
+    {
+        return $this->render('area/area3.html.twig');
+    }
+
     #[Route('/new', name: 'app_area_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

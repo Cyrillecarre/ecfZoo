@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Area 1{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/area1.css') }}">
+{% endblock %}
+
+
+{% block body %}
+{% include 'header.html.twig' %}
+    <div class="container">
+        <h1>Area 1</h1>
+        <p>Area 1 content</p>
+    </div>
+{% include 'footer.html.twig' %}
+{% endblock %}
