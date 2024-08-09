@@ -1,0 +1,28 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}habitats{% endblock %}
+
+{% block content %}
+<h1>Liste des Zones</h1>
+    <div class="listeEmploye">
+        {% for area in areas %}
+            <div class="areaItem">
+                <hr class="hrListe">
+                <p>{{ area.name }}</p>
+                <div class="btnPosition">
+                    <a href="{{ path('admin_area_edit', { id: area.id }) }}" class="btnAction">Modifier</a>
+                </div>
+                <hr class="hrListe">
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
