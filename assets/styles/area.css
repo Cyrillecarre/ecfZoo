@@ -1,0 +1,37 @@
+.mainArea {
+    display: flex;
+    width: 100%;
+    margin-top: -35rem;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10rem;
+}
+
+.areaContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+.areTitre {
+    display: flex;
+    margin: 0 auto;
+}
+
+.areaPicture {
+    display: grid;
+    grid-template-columns: 15rem 35rem 15rem;
+    justify-content: center;
+    justify-items: center;
+}
+
+.areaPictureContent {
+    width: 25rem;
+    height: auto;
+    object-fit: cover;
+    border-radius: 1rem;
+    gap: 1rem;
+}
+

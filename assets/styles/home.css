@@ -250,14 +250,12 @@
     box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
 }
 
-/* Styles initiaux et transitions */
 .titrePrestationContent, .texte, .contentPrestationRestauration, .contentPrestationBoutique, .contentPrestationAnimation {
     opacity: 0;
     transform: translateX(100%);
     transition: all 1s ease-out;
 }
 
-/* Styles pour la classe "appear" */
 .titrePrestationContent.appear, .texte.appear {
     opacity: 1;
     transform: translateX(0);
@@ -346,14 +344,14 @@
 .area1 {
     margin-top: 10rem;
     transform: rotate(5deg);
-    background-image: url('../images/Tropical/elephant2.jpg');
+    background-image: url('../images/Savane/elephant2.jpg');
     background-size: cover;
     cursor: pointer;
 }
 
 .area2 {
     margin-top: 5rem;
-    background-image: url('../images/Savane/jaguar2.jpg');
+    background-image: url('../images/Tropical/jaguar2.jpg');
     background-size: cover;
 }
 

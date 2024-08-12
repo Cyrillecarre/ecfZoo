@@ -191,26 +191,49 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile[]|null $files */
             $files = $form->get('images')->getData();
-    
-            if ($files) {
-                foreach ($files as $file) {
-                    $imageName = uniqid() . '.' . $file->guessExtension();
+
+        if ($files) {
+            foreach ($files as $file) {
+                $imageName = uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                        $imageName
+                    );
+                    $image = new PictureArea();
+                    $image->setPath($imageName);
+                    $area->addImage($image);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+                }
+            }
+        }
+
+        foreach ($area->getImages() as $image) {
+            $remove = $request->get('remove_image_' . $image->getId());
+
+            if ($remove) {
+                $area->removeImage($image);
+                $entityManager->remove($image);
+            } else {
+                $newFile = $request->files->get('replace_image_' . $image->getId());
+                if ($newFile) {
+                    $newImageName = uniqid() . '.' . $newFile->guessExtension();
                     try {
-                        $file->move(
+                        $newFile->move(
                             $this->getParameter('kernel.project_dir') . '/public/uploads/',
-                            $imageName
+                            $newImageName
                         );
-                        $image = new PictureArea();
-                        $image->setPath($imageName);
-                        $area->addImage($image);
+                        $image->setPath($newImageName);
                     } catch (FileException $e) {
                         $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
                     }
                 }
             }
-    
-            $entityManager->persist($area);
-            $entityManager->flush();
+        }
+
+        $entityManager->persist($area);
+        $entityManager->flush();
 
 
         return $this->redirectToRoute('admin_area', [], Response::HTTP_SEE_OTHER);

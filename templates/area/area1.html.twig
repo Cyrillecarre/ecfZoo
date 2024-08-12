@@ -1,17 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Area 1{% endblock %}
+{% block title %}Zone Tropical{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('styles/area1.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/area.css') }}">
 {% endblock %}
 
 
 {% block body %}
 {% include 'header.html.twig' %}
-    <div class="container">
-        <h1>Area 1</h1>
-        <p>Area 1 content</p>
+<main class="mainArea">
+    <div class="areaContent">
+        <h1 class="areaTitre">{{ area.name }}</h1>
+        <p class="areaDescription">{{ area.description }}</p>
+        <div class="areaPicture">
+            {% for picture in pictures %}
+                <img src="{{ asset('uploads/' ~ picture.path) }}" alt="Image for {{ area.name }}" class="areaPictureContent">
+            {% endfor %}
+        </div>
     </div>
+</main>
 {% include 'footer.html.twig' %}
 {% endblock %}

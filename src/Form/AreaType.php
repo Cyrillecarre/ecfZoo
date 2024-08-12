@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AreaType extends AbstractType
 {
@@ -37,6 +38,14 @@ class AreaType extends AbstractType
                         ]),
                     ]),
                 ],
+            ])
+            ->add('existingImages', CollectionType::class, [
+                'entry_type' => FileType::class,
+                'mapped' => false,
+                'required' => false,
+                'allow_add' => false,
+                'allow_delete' => true,
+                'label' => false,
             ])
         ;
     }

@@ -35,9 +35,18 @@ class AreaController extends AbstractController
     }
 
     #[Route('/area1', name: 'area1')]
-    public function area1(): Response
+    public function area1(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('area/area1.html.twig');
+        $area = $entityManager->getRepository(Area::class)->findOneBy(['name' => 'Tropical']);
+
+        if (!$area) {
+            throw $this->createNotFoundException('No area found for name Tropical');
+        }
+
+        return $this->render('area/area1.html.twig', [
+            'area' => $area,
+            'pictures' => $area->getImages(),
+        ]);
     }
 
     #[Route('/area2', name: 'area2')]
@@ -62,6 +71,7 @@ class AreaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile[]|null $files */
             $files = $form->get('images')->getData();
+            $existingImages = $form->get('existingImages')->getData();
     
             if ($files) {
                 foreach ($files as $file) {
