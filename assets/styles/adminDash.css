@@ -103,7 +103,6 @@
     box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
 }
 
-/* Style général du formulaire */
 .custom-form {
     display: flex;
     flex-direction: column;
@@ -151,3 +150,11 @@ label[for*="token"] {
     margin-bottom: 1rem;
 }
 
+.imageDash {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 10rem;
+    height: auto;
+}

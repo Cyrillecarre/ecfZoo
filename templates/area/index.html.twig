@@ -12,6 +12,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Comment</th>
+                <th>image</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +23,11 @@
                 <td>{{ area.name }}</td>
                 <td>{{ area.description }}</td>
                 <td>{{ area.comment }}</td>
+                {% if area.imagePath %}
+    {% for image in area.imagePath|split(',') %}
+        <img src="{{ asset('uploads/' ~ image) }}" alt="Image" />
+    {% endfor %}
+{% endif %}
                 <td>
                     <a href="{{ path('app_area_show', {'id': area.id}) }}">show</a>
                     <a href="{{ path('app_area_edit', {'id': area.id}) }}">edit</a>

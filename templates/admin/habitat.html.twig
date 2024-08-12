@@ -18,6 +18,11 @@
             <div class="areaItem">
                 <hr class="hrListe">
                 <p>{{ area.name }}</p>
+                <p>{{ area.description }}</p>
+                {% if area.imagePath %}
+                    <img src="{{ asset('uploads/' ~ area.imagePath) }}" alt="Image" class="imageDash" />
+                {% endif %}
+                <p>{{ area.comment }}</p>
                 <div class="btnPosition">
                     <a href="{{ path('admin_area_edit', { id: area.id }) }}" class="btnAction">Modifier</a>
                 </div>

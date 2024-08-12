@@ -10,15 +10,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Psr\Log\LoggerInterface;
 
 #[Route('/area')]
 class AreaController extends AbstractController
 {
+
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     #[Route('/', name: 'app_area_index', methods: ['GET'])]
     public function index(AreaRepository $areaRepository): Response
     {
         return $this->render('area/index.html.twig', [
-            'areas' => $areaRepository->findAll(),
+            'area' => $areaRepository->findAll(),
         ]);
     }
 
@@ -47,18 +58,37 @@ class AreaController extends AbstractController
         $form = $this->createForm(AreaType::class, $area);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+    if ($form->isSubmitted() && $form->isValid()) {
+        /** @var UploadedFile|null $imageFile */
+        $imageFile = $form->get('imagePath')->getData();
+
+        if ($imageFile instanceof UploadedFile) {
+            $imageName = uniqid() . '.' . $imageFile->guessExtension();
+            try {
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                    $imageName
+                );
+                $area->setImagePath($imageName);
+            } catch (FileException $e) {
+                $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+            }
+        } else {
+            $area->setImagePath(null);
+        }
+
             $entityManager->persist($area);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_area_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_area');
         }
 
         return $this->render('area/new.html.twig', [
             'area' => $area,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/{id}', name: 'app_area_show', methods: ['GET'])]
     public function show(Area $area): Response
@@ -77,7 +107,7 @@ class AreaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_area_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_area_index');
         }
 
         return $this->render('area/edit.html.twig', [

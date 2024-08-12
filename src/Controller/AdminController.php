@@ -17,6 +17,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Area;
 use App\Form\AreaType;
 use App\Repository\AreaRepository;
+use App\Entity\PictureArea;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 
 
@@ -186,11 +189,28 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            /** @var UploadedFile|null $imageFile */
+            $imageFile = $form->get('imagePath')->getData();
+    
+            if ($imageFile) {
+                $imageName = uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                        $imageName
+                    );
+                    $area->setImagePath($imageName);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+                }
+            } else {
+                $area->setImagePath(null);
+            }
+    
+            $entityManager->persist($area);
 
-            return $this->redirectToRoute('admin_area', [], Response::HTTP_SEE_OTHER);
-        }
-
+        return $this->redirectToRoute('admin_area', [], Response::HTTP_SEE_OTHER);
+    }
         return $this->render('admin/editHabitat.html.twig', [
             'area' => $area,
             'form' => $form->createView(),

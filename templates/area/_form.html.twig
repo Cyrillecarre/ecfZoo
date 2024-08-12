@@ -1,4 +1,12 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data', 'data-turbo': 'false' } }) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.comment) }}
+
+    {# Render PictureAreas form #}
+    <h3>Add Pictures</h3>
+    <div id="pictureAreas">
+        {{ form_widget(form.imagePath) }}
+    </div>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
