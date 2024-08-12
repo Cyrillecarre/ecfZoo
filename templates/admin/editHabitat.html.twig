@@ -30,6 +30,20 @@
             {{ form_widget(field) }}
         {% endif %}
     {% endfor %}
+
+    <h3>Images existantes</h3>
+    <div class="existing-images">
+        {% for image in area.images %}
+            <div class="image-entry">
+                <img src="{{ asset('uploads/' ~ image.path) }}" alt="Image actuelle" style="width: 150px; height: auto;">
+                <label for="replace_image_{{ image.id }}">Remplacer l'image</label>
+                <input type="file" name="replace_image_{{ image.id }}">
+                <label for="remove_image_{{ image.id }}">
+                    <input type="checkbox" name="remove_image_{{ image.id }}" value="1"> Supprimer
+                </label>
+            </div>
+        {% endfor %}
+    </div>
     
     <button type="submit" class="btnAction">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
