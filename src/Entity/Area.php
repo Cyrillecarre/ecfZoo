@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\AreaRepository;
@@ -24,21 +23,17 @@ class Area
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
 
-    /**
-     * @var Collection<int, PictureArea>
-     */
-    #[ORM\OneToMany(targetEntity: PictureArea::class, mappedBy: 'Area', orphanRemoval: true)]
-    private Collection $pictureAreas;
+    #[ORM\Column(nullable: true)]
+    private ?string $imagePath = null;
 
     /**
      * @var Collection<int, Animal>
      */
-    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'Area')]
+    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'area')]
     private Collection $animals;
 
     public function __construct()
     {
-        $this->pictureAreas = new ArrayCollection();
         $this->animals = new ArrayCollection();
     }
 
@@ -83,32 +78,14 @@ class Area
         return $this;
     }
 
-    /**
-     * @return Collection<int, PictureArea>
-     */
-    public function getPictureAreas(): Collection
+    public function getImagePath(): ?string
     {
-        return $this->pictureAreas;
+        return $this->imagePath;
     }
 
-    public function addPictureArea(PictureArea $pictureArea): static
+    public function setImagePath(?string $imagePath): self
     {
-        if (!$this->pictureAreas->contains($pictureArea)) {
-            $this->pictureAreas->add($pictureArea);
-            $pictureArea->setArea($this);
-        }
-
-        return $this;
-    }
-
-    public function removePictureArea(PictureArea $pictureArea): static
-    {
-        if ($this->pictureAreas->removeElement($pictureArea)) {
-            // set the owning side to null (unless already changed)
-            if ($pictureArea->getArea() === $this) {
-                $pictureArea->setArea(null);
-            }
-        }
+        $this->imagePath = $imagePath;
 
         return $this;
     }

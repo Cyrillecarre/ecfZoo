@@ -2,21 +2,35 @@
 
 {% block title %}Modifier la Zone - {{ area.name }}{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+
 {% block content %}
     <h1>Modifier la Zone {{ area.name }}</h1>
-
-    {{ form_start(form, {'action': path('admin_area_edit', { id: area.id }), 'method': 'POST', 'attr': {'class': 'custom-form'}}) }}
-        {% for field in form %}
-            {% if field.vars.block_prefixes[0] != 'form_token' %}
-                <div class="form-group">
-                    {{ form_label(field, null, {'attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(field, {'attr': {'class': 'form-error-message'}}) }}
-                </div>
-            {% else %}
-                {{ form_widget(field) }}
-            {% endif %}
-        {% endfor %}
-        <button type="submit" class="btnAction">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_start(form, {
+        'action': path('admin_area_edit', { id: area.id }), 
+        'method': 'POST', 
+        'attr': {
+            'enctype': 'multipart/form-data', 
+            'class': 'custom-form'
+        }
+    }) }}
+    
+    {% for field in form %}
+        {% if field.vars.block_prefixes[0] != 'form_token' %}
+            <div class="form-group">
+                {{ form_label(field, null, {'attr': {'class': 'form-label'}}) }}
+                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(field, {'attr': {'class': 'form-error-message'}}) }}
+            </div>
+        {% else %}
+            {{ form_widget(field) }}
+        {% endif %}
+    {% endfor %}
+    
+    <button type="submit" class="btnAction">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
 {% endblock %}

@@ -41,3 +41,28 @@ area2:
 area3:
     path: /area3
     controller: App\Controller\AreaController::area3
+
+app_area_index:
+    path: /area
+    controller: App\Controller\AreaController::index
+    methods: [GET]
+
+app_area_new:
+    path: /area/new
+    controller: App\Controller\AreaController::new
+    methods: [GET, POST]
+
+app_area_show:
+    path: /area/{id}
+    controller: App\Controller\AreaController::show
+    methods: [GET]
+
+app_area_edit:
+    path: /area/{id}/edit
+    controller: App\Controller\AreaController::edit
+    methods: [GET, POST]
+
+app_area_delete:
+    path: /area/{id}
+    controller: App\Controller\AreaController::delete
+    methods: [POST]
