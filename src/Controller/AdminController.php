@@ -189,25 +189,29 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile|null $imageFile */
-            $imageFile = $form->get('imagePath')->getData();
+            /** @var UploadedFile[]|null $files */
+            $files = $form->get('images')->getData();
     
-            if ($imageFile) {
-                $imageName = uniqid() . '.' . $imageFile->guessExtension();
-                try {
-                    $imageFile->move(
-                        $this->getParameter('kernel.project_dir') . '/public/uploads/',
-                        $imageName
-                    );
-                    $area->setImagePath($imageName);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+            if ($files) {
+                foreach ($files as $file) {
+                    $imageName = uniqid() . '.' . $file->guessExtension();
+                    try {
+                        $file->move(
+                            $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                            $imageName
+                        );
+                        $image = new PictureArea();
+                        $image->setPath($imageName);
+                        $area->addImage($image);
+                    } catch (FileException $e) {
+                        $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+                    }
                 }
-            } else {
-                $area->setImagePath(null);
             }
     
             $entityManager->persist($area);
+            $entityManager->flush();
+
 
         return $this->redirectToRoute('admin_area', [], Response::HTTP_SEE_OTHER);
     }

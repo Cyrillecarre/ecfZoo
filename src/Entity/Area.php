@@ -27,6 +27,12 @@ class Area
     private ?string $imagePath = null;
 
     /**
+     * @var Collection<int, PictureArea>
+     */
+    #[ORM\OneToMany(targetEntity: PictureArea::class, mappedBy: 'area', cascade: ['persist', 'remove'])]
+    private Collection $images;
+
+    /**
      * @var Collection<int, Animal>
      */
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'area')]
@@ -35,6 +41,33 @@ class Area
     public function __construct()
     {
         $this->animals = new ArrayCollection();
+        $this->images = new ArrayCollection();
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(PictureArea $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setArea($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(PictureArea $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            if ($image->getArea() === $this) {
+                $image->setArea(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getId(): ?int

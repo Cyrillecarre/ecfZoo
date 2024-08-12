@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Psr\Log\LoggerInterface;
+use App\Entity\PictureArea;
 
 #[Route('/area')]
 class AreaController extends AbstractController
@@ -58,28 +59,30 @@ class AreaController extends AbstractController
         $form = $this->createForm(AreaType::class, $area);
         $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        /** @var UploadedFile|null $imageFile */
-        $imageFile = $form->get('imagePath')->getData();
-
-        if ($imageFile instanceof UploadedFile) {
-            $imageName = uniqid() . '.' . $imageFile->guessExtension();
-            try {
-                $imageFile->move(
-                    $this->getParameter('kernel.project_dir') . '/public/uploads/',
-                    $imageName
-                );
-                $area->setImagePath($imageName);
-            } catch (FileException $e) {
-                $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile[]|null $files */
+            $files = $form->get('images')->getData();
+    
+            if ($files) {
+                foreach ($files as $file) {
+                    $imageName = uniqid() . '.' . $file->guessExtension();
+                    try {
+                        $file->move(
+                            $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                            $imageName
+                        );
+                        $image = new PictureArea();
+                        $image->setPath($imageName);
+                        $area->addImage($image);
+                    } catch (FileException $e) {
+                        $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
+                    }
+                }
             }
-        } else {
-            $area->setImagePath(null);
-        }
-
+    
             $entityManager->persist($area);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('admin_area');
         }
 
