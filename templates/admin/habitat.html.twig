@@ -13,15 +13,17 @@
 
 {% block content %}
 <h1>Liste des Zones</h1>
-    <div class="listeEmploye">
+    <div class="listeArea">
         {% for area in areas %}
             <div class="areaItem">
                 <hr class="hrListe">
                 <p>{{ area.name }}</p>
                 <p>{{ area.description }}</p>
-                {% if area.imagePath %}
-                    <img src="{{ asset('uploads/' ~ area.imagePath) }}" alt="Image" class="imageDash" />
-                {% endif %}
+                <div class="imageDash">
+                    {% for image in area.images %}
+                    <img src="{{ asset('uploads/' ~ image.path) }}" alt="Image" class="imageDash" />
+                    {% endfor %}
+                </div>
                 <p>{{ area.comment }}</p>
                 <div class="btnPosition">
                     <a href="{{ path('admin_area_edit', { id: area.id }) }}" class="btnAction">Modifier</a>

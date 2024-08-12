@@ -150,6 +150,29 @@ label[for*="token"] {
     margin-bottom: 1rem;
 }
 
+.areaItem {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+}
+
+.listeArea {
+    background-color: #969595;
+    padding: 0.5rem;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 20px;
+    
+}
+
 .imageDash {
     display: flex;
     justify-content: center;
@@ -157,4 +180,5 @@ label[for*="token"] {
     margin-top: 2rem;
     width: 10rem;
     height: auto;
+    margin: 0 auto;
 }
