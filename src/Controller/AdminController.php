@@ -20,6 +20,7 @@ use App\Repository\AreaRepository;
 use App\Entity\PictureArea;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Repository\AnimalRepository;
 
 
 
@@ -241,6 +242,14 @@ class AdminController extends AbstractController
         return $this->render('admin/editHabitat.html.twig', [
             'area' => $area,
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/admin/animaux', name: 'admin_animaux', methods: ['GET'])]
+    public function indexAnimaux(AnimalRepository $animalRepository): Response
+    {
+        return $this->render('admin/animaux.html.twig', [
+            'animals' => $animalRepository->findAll(),
         ]);
     }
 }

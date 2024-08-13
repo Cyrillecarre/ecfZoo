@@ -23,7 +23,7 @@ class Animal
 
     #[ORM\ManyToOne(inversedBy: 'animals')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Area $Area = null;
+    private ?Area $area = null;
 
     /**
      * @var Collection<int, PictureAnimal>
@@ -70,12 +70,12 @@ class Animal
 
     public function getArea(): ?Area
     {
-        return $this->Area;
+        return $this->area;
     }
 
-    public function setArea(?Area $Area): static
+    public function setArea(?Area $area): static
     {
-        $this->Area = $Area;
+        $this->area = $area;
 
         return $this;
     }
