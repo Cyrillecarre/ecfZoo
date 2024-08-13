@@ -1,0 +1,21 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}Ajouter un Animal{% endblock %}
+
+{% block content %}
+    <h1>Ajouter un Animal</h1>
+
+    {{ include('animal/_form.html.twig') }}
+
+    <a href="{{ path('admin_animaux') }}" class="btnAction">Retour</a>
+
+{% endblock %}

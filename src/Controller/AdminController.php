@@ -21,6 +21,9 @@ use App\Entity\PictureArea;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Repository\AnimalRepository;
+use App\Entity\Animal;
+use App\Form\AnimalType;
+use App\Entity\PictureAnimal;
 
 
 
@@ -246,10 +249,84 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/animaux', name: 'admin_animaux', methods: ['GET'])]
-    public function indexAnimaux(AnimalRepository $animalRepository): Response
+    public function indexAnimaux(AnimalRepository $animalRepository, AreaRepository $areaRepository): Response
     {
+        $areas = $areaRepository->findAll();
+    
         return $this->render('admin/animaux.html.twig', [
             'animals' => $animalRepository->findAll(),
+            'areas' => $areas,
         ]);
+    }
+
+    #[Route('/new', name: 'app_adminAnimal_new', methods: ['GET', 'POST'])]
+    public function newAnimal(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $animal = new Animal();
+        $form = $this->createForm(AnimalType::class, $animal);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+        /** @var UploadedFile[] $images */
+        $images = $form->get('images')->getData();
+
+        foreach ($images as $image) {
+            $newFilename = uniqid() . '.' . $image->guessExtension();
+
+            try {
+                $image->move(
+                    $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                    $newFilename
+                );
+            } catch (FileException $e) {
+
+            }
+
+            $pictureAnimal = new PictureAnimal();
+            $pictureAnimal->setFileName($newFilename);
+            $pictureAnimal->setAnimal($animal);
+
+            $animal->addPictureAnimal($pictureAnimal);
+
+            $entityManager->persist($pictureAnimal);
+        }
+
+        $entityManager->persist($animal);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_animaux', [], Response::HTTP_SEE_OTHER);
+    }
+        return $this->render('admin/animalNew.html.twig', [
+            'animal' => $animal,
+            'form' => $form,
+        ]);
+    }
+    #[Route('/{id}/edit', name: 'app_adminAnimal_edit', methods: ['GET', 'POST'])]
+    public function editAnimal(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AnimalType::class, $animal);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/animalNew.html.twig', [
+            'animal' => $animal,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_adminAnimal_delete', methods: ['POST'])]
+    public function deleteAnimal(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$animal->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($animal);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
     }
 }
