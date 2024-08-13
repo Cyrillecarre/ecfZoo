@@ -50,15 +50,33 @@ class AreaController extends AbstractController
     }
 
     #[Route('/area2', name: 'area2')]
-    public function area2(): Response
+    public function area2(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('area/area2.html.twig');
+        $area = $entityManager->getRepository(Area::class)->findOneBy(['name' => 'Savane']);
+
+        if (!$area) {
+            throw $this->createNotFoundException('No area found for name Savane');
+        }
+
+        return $this->render('area/area2.html.twig', [
+            'area' => $area,
+            'pictures' => $area->getImages(),
+        ]);
     }
 
     #[Route('/area3', name: 'area3')]
-    public function area3(): Response
+    public function area3(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('area/area3.html.twig');
+        $area = $entityManager->getRepository(Area::class)->findOneBy(['name' => 'Desert']);
+
+        if (!$area) {
+            throw $this->createNotFoundException('No area found for name Desert');
+        }
+
+        return $this->render('area/area3.html.twig', [
+            'area' => $area,
+            'pictures' => $area->getImages(),
+        ]);
     }
 
     #[Route('/new', name: 'app_area_new', methods: ['GET', 'POST'])]

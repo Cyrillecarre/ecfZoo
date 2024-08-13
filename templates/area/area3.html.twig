@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zone Desert{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/area.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/area.js') }}" defer></script>
+{% endblock %}
+
+
+{% block body %}
+{% include 'header.html.twig' %}
+<main class="mainArea">
+    <div class="areaContent">
+        <h1 class="areaTitre">{{ area.name }}</h1>
+        <div class="areaPicture">
+            {% for picture in pictures %}
+                <img src="{{ asset('uploads/' ~ picture.path) }}" alt="Image for {{ area.name }}" class="areaPictureContent">
+            {% endfor %}
+        </div>
+        <p class="areaDescription">{{ area.description }}</p>
+    <a href="{{ path('app_home') }}" class="btnArea" id="backButton">Retour</a>
+    </div>
+    <div class="backgroundArea3"></div>
+</main>
+{% include 'footer.html.twig' %}
+{% endblock %}

@@ -105,7 +105,10 @@
     position: relative;
     box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
     background-color: rgba(255, 255, 255, 0.777);
+    text-decoration: none;
+    color: black;
 }
+
 
 .sidebarLi:hover {
     cursor: pointer;

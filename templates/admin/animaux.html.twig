@@ -12,35 +12,43 @@
 {% block title %}Animaux{% endblock %}
 
 {% block content %}
-<h1>Liste des Animaux</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Race</th>
-                <th>Image</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for animal in animals %}
+<div class="btnAction">
+        <a href="{{ path('app_adminAnimal_new') }}">Ajouter un Animal</a>
+    </div>
+<h1>Liste des Animaux par Zone</h1>
+    {% for area in areas %}
+        <h2>{{ area.name }}</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ animal.name }}</td>
-                    <td>{{ animal.race }}</td>
-                    <td>
-                        {% for picture in animal.pictureAnimals %}
-                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" style="width: 100px; height: auto;"/>
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <a href="{{ path('app_animal_edit', {'id': animal.id}) }}" class="btnAction">Modifier</a>
-                    </td>
+                    <th>Nom</th>
+                    <th>Race</th>
+                    <th>Image</th>
+                    <th>Actions</th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Aucun animal trouvé.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for animal in area.animals %}
+                    <tr>
+                        <td>{{ animal.name }}</td>
+                        <td>{{ animal.race }}</td>
+                        <td>
+                            {% for picture in animal.pictureAnimals %}
+                                <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" style="width: 100px; height: auto;"/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_adminAnimal_edit', {'id': animal.id}) }}" class="btnAction">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun animal trouvé dans cette zone.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune zone trouvée.</p>
+    {% endfor %}
 {% endblock %}

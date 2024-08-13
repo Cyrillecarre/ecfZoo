@@ -1,4 +1,41 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+
+<div class="form-group">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.name) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.race) }}
+    {{ form_widget(form.race, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.race) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.Area) }}
+    {{ form_widget(form.Area, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.Area) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.recommandationVeterinary) }}
+    {{ form_widget(form.recommandationVeterinary, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.recommandationVeterinary) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.images) }}
+    {{ form_widget(form.images, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.images) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.existingImages) }}
+    {{ form_widget(form.existingImages, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.existingImages) }}
+</div>
+
+<button class="btnAction">{{ button_label|default('Enregistrer') }}</button>
+
 {{ form_end(form) }}

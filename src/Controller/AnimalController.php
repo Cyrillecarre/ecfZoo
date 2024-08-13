@@ -20,7 +20,7 @@ class AnimalController extends AbstractController
     #[Route('/', name: 'app_animal_index', methods: ['GET'])]
     public function index(AnimalRepository $animalRepository): Response
     {
-        return $this->render('animal/index.html.twig', [
+        return $this->render('admin/animaux.html.twig', [
             'animals' => $animalRepository->findAll(),
         ]);
     }
@@ -37,39 +37,32 @@ class AnimalController extends AbstractController
         $images = $form->get('images')->getData();
 
         foreach ($images as $image) {
-            // Générer un nom unique pour chaque fichier
             $newFilename = uniqid() . '.' . $image->guessExtension();
 
-            // Déplacer le fichier vers le répertoire de stockage
             try {
                 $image->move(
                     $this->getParameter('kernel.project_dir') . '/public/uploads/',
                     $newFilename
                 );
             } catch (FileException $e) {
-                // Gérer les erreurs d'upload
-                // Vous pouvez ajouter une gestion d'erreur personnalisée ici
+
             }
 
-            // Créer une nouvelle instance de PictureAnimal
             $pictureAnimal = new PictureAnimal();
             $pictureAnimal->setFileName($newFilename);
             $pictureAnimal->setAnimal($animal);
 
-            // Associer l'image à l'animal
             $animal->addPictureAnimal($pictureAnimal);
 
-            // Persister l'image dans la base de données
             $entityManager->persist($pictureAnimal);
         }
 
-        // Persister l'animal dans la base de données
         $entityManager->persist($animal);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_animaux', [], Response::HTTP_SEE_OTHER);
     }
-        return $this->render('animal/new.html.twig', [
+        return $this->render('admin/animalNew.html.twig', [
             'animal' => $animal,
             'form' => $form,
         ]);
