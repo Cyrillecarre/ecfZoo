@@ -29,6 +29,10 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: top;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    width: 50%;
+    border-radius: 12px;
 }
 
 .navListe {
