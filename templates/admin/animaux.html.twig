@@ -1,0 +1,46 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}Animaux{% endblock %}
+
+{% block content %}
+<h1>Liste des Animaux</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Race</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.name }}</td>
+                    <td>{{ animal.race }}</td>
+                    <td>
+                        {% for picture in animal.pictureAnimals %}
+                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" style="width: 100px; height: auto;"/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_animal_edit', {'id': animal.id}) }}" class="btnAction">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun animal trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

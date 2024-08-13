@@ -51,14 +51,12 @@ body {
 }
 
 .navList a {
-  text-decoration: none;
-  color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
 }
-
-.navList a:hover {
-  cursor: pointer;
-}
-
 
 .background-image {
     background-image: url('../images/AreaSavane.jpg');

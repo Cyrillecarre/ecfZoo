@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Entity\PictureAnimal;
 
 #[Route('/animal')]
 class AnimalController extends AbstractController
@@ -30,12 +33,42 @@ class AnimalController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($animal);
-            $entityManager->flush();
+        /** @var UploadedFile[] $images */
+        $images = $form->get('images')->getData();
 
-            return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+        foreach ($images as $image) {
+            // Générer un nom unique pour chaque fichier
+            $newFilename = uniqid() . '.' . $image->guessExtension();
+
+            // Déplacer le fichier vers le répertoire de stockage
+            try {
+                $image->move(
+                    $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // Gérer les erreurs d'upload
+                // Vous pouvez ajouter une gestion d'erreur personnalisée ici
+            }
+
+            // Créer une nouvelle instance de PictureAnimal
+            $pictureAnimal = new PictureAnimal();
+            $pictureAnimal->setFileName($newFilename);
+            $pictureAnimal->setAnimal($animal);
+
+            // Associer l'image à l'animal
+            $animal->addPictureAnimal($pictureAnimal);
+
+            // Persister l'image dans la base de données
+            $entityManager->persist($pictureAnimal);
         }
 
+        // Persister l'animal dans la base de données
+        $entityManager->persist($animal);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+    }
         return $this->render('animal/new.html.twig', [
             'animal' => $animal,
             'form' => $form,
