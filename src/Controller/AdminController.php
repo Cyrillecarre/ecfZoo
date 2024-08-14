@@ -311,9 +311,40 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            /** @var UploadedFile[] $images */
+            $images = $form->get('images')->getData();
+    
+            if ($images) {
+                foreach ($animal->getPictureAnimals() as $existingPicture) {
+                    $entityManager->remove($existingPicture);
+                    unlink($this->getParameter('kernel.project_dir') . '/public/uploads/' . $existingPicture->getFileName());
+                }
+                $animal->getPictureAnimals()->clear();
+    
+                foreach ($images as $image) {
+                    $newFilename = uniqid() . '.' . $image->guessExtension();
+    
+                    try {
+                        $image->move(
+                            $this->getParameter('kernel.project_dir') . '/public/uploads/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
 
-            return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
+                    }
+    
+                    $pictureAnimal = new PictureAnimal();
+                    $pictureAnimal->setFileName($newFilename);
+                    $pictureAnimal->setAnimal($animal);
+    
+                    $animal->addPictureAnimal($pictureAnimal);
+                    $entityManager->persist($pictureAnimal);
+                }
+            }
+    
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('admin_animaux', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/animalNew.html.twig', [
