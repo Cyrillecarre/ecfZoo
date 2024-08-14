@@ -1,3 +1,4 @@
+
 .mainArea {
     display: flex;
     justify-content: center;
@@ -180,4 +181,59 @@
     background-color: rgba(255, 255, 255, 0.3);
     color: white;
 }
+
+
+/*animaux*/
+
+.swiper-container {
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+}
+
+.swiper-wrapper {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.animalName {
+    font-size: 2rem;
+    margin-bottom: -1px;
+    color: white;
+}
+
+.animalRace {
+    color: white;
+}
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.animalImage {
+    max-width: 100%;
+    max-height: 30rem;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.swiper-slide-active {
+    transform: scale(1.8);
+}
+
+.swiper-slide-next, 
+.swiper-slide-prev {
+    transform: scale(0.9); /* Réduit légèrement la taille des images voisines de l'image centrale */
+}
+
+.swiper-slide-next + .swiper-slide,
+.swiper-slide-prev + .swiper-slide {
+    transform: scale(0.7); /* Réduit encore plus la taille des images qui sont plus éloignées de l'image centrale */
+}
+
 
