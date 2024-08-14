@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/home.js') }}"></script>
+{% endblock %}
+
+{% block title %}Service{% endblock %}
+
+{% block body %}
+<main class="prestation">
+    <h1 class="titrePrestation">Nos prestations</h1>
+    <article class="article2">
+        {% for service in services %}
+        <div>
+            <h2 class="titrePrestationContent">{{ service.name }}</h2>
+            <p class="text">{{ service.descritpion }}</p>
+            <div class="contentPrestationRestauration">
+                <img src="{{ asset(service.picture) }}" alt="{{ service.name }}">
+            </div>
+        </div>
+        {% endfor %}
+    </article>
+</main>
+{% endblock %}

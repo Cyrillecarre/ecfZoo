@@ -1,0 +1,56 @@
+.prestation {
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    padding-top: 3rem;
+    background-color: white;
+    color: black;
+}
+
+.titrePrestation {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 2.5em;
+    color: black;
+}
+
+.titrePrestationContent{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5em;
+    color: black;
+}
+
+.texte {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1em;
+    color: black;
+}
+
+.article2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    width: 90%;
+    margin: 0 auto;
+    gap: 0.5rem;
+}
+
+.contentPrestationRestaurant {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    height: 30rem;
+    width: 23rem;
+    margin: 0 auto;
+    border-radius: 0.2rem;
+    border: 1px solid black;
+    box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
+}

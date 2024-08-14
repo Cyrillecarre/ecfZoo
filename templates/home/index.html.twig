@@ -65,32 +65,7 @@
             </div>
     </main>
     <img class="image" src="{{ asset('images/bottom-scratch.png') }}" alt="transition">
-    <main class="prestation">
-        <h1 class="titrePrestation">Nos prestations</h1>
-        <article class="article2">
-            <div>
-                <h2 class="titrePrestationContent">Restauration</h2>
-                <p class="texte">Profitez de nos stands de restauration rapide pour une 
-                pause gourmande avec des menus adaptés à toute la famille.
-                </p>
-                <span class="contentPrestationRestauration"></span>
-            </div>
-            <div>
-                <h2 class="titrePrestationContent">Visite en train</h2>
-                <p class="texte">Explorez le zoo confortablement installé dans notre train 
-                touristique, pour une aventure unique à travers nos différents habitats.
-                </p>
-                <span class="contentPrestationBoutique"></span>
-            </div>
-            <div>
-                <h2 class="titrePrestationContent">Visite Guidé</h2>
-                <p class="texte">Découvrez les secrets du zoo et ses habitants fascinants 
-                grâce à une visite guidée par nos experts passionnés.
-                </p>
-                <span class="contentPrestationAnimation"></span>
-            </div>
-        </article>
-    </main>
+    {% include 'service/index.html.twig' %}
      <img class="image-overlap" src="{{ asset('images/top-scratch.png') }}" alt="transition">
     <main id="habitats" class="container3">
         <div class="fondArea">

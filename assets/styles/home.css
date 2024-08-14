@@ -170,10 +170,11 @@ html {
 .prestation {
     display: flex;
     flex-direction: column;
-    height: 95vh;
     padding-top: 3rem;
     background-color: white;
     color: black;
+    height: auto;
+    padding-bottom: 3rem;
 }
 
 .titrePrestation {
@@ -200,12 +201,11 @@ html {
     color: black;
 }
 
-
 .article2 {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     justify-items: center;
     width: 90%;
     margin: 0 auto;
@@ -216,42 +216,20 @@ html {
     display: flex;
     justify-content: center;
     text-align: center;
-    background-image: url('../images/restauration.jpg');
-    background-size: cover;
     height: 30rem;
-    width: 23rem;
+    width: 20rem;
     margin: 0 auto;
     border-radius: 0.2rem;
     border: 1px solid black;
     box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
+    overflow: hidden;
+    position: relative;
 }
 
-.contentPrestationBoutique {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('../images/train.jpg');
-    background-size: cover;
-    height: 30rem;
-    width: 23rem;
-    margin: 0 auto;
-    border-radius: 0.2rem;
-    border: 1px solid black;
-    box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
-}
-
-.contentPrestationAnimation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('../images/guide.jpg');
-    background-size: cover;
-    height: 30rem;
-    width: 23rem;
-    margin: 0 auto;
-    border-radius: 0.2rem;
-    border: 1px solid black;
-    box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
+.contentPrestationRestauration img {
+    width: 100%; /* Prend 100% de la largeur du conteneur */
+    height: 100%; /* Prend 100% de la hauteur du conteneur */
+    object-fit: cover; /* Ajuste l'image pour couvrir le conteneur sans déformation */
 }
 
 .titrePrestationContent, .texte, .contentPrestationRestauration, .contentPrestationBoutique, .contentPrestationAnimation {
