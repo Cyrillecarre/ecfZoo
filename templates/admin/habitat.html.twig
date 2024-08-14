@@ -17,7 +17,7 @@
         {% for area in areas %}
             <div class="areaItem">
                 <hr class="hrListe">
-                <p class="titreAreaDash">{{ area.name }}</p>
+                <h2 class="titreAreaDash">{{ area.name }}</h2>
                 <div class="imageDash">
                     {% for image in area.images %}
                     <img src="{{ asset('uploads/' ~ image.path) }}" alt="Image" class="imageDashContent" />
