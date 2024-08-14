@@ -65,7 +65,8 @@
 
 .sidebar {
     width: 10rem;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     background-color: #2C3E50;
     padding: 20px;
     border-right: 1px solid #ddd;

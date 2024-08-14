@@ -206,7 +206,9 @@ class AdminController extends AbstractController
                     );
                     $image = new PictureArea();
                     $image->setPath($imageName);
+                    $image->setArea($area);
                     $area->addImage($image);
+                    $entityManager->persist($image);
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
                 }
@@ -229,6 +231,7 @@ class AdminController extends AbstractController
                             $newImageName
                         );
                         $image->setPath($newImageName);
+                        $entityManager->persist($image);
                     } catch (FileException $e) {
                         $this->addFlash('error', 'Failed to upload file: ' . $e->getMessage());
                     }

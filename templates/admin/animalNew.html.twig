@@ -12,10 +12,10 @@
 {% block title %}Ajouter un Animal{% endblock %}
 
 {% block content %}
-    <h1>Ajouter un Animal</h1>
+    <h1 class="titreAnimal">Ajouter un Animal</h1>
 
     {{ include('animal/_form.html.twig') }}
 
-    <a href="{{ path('admin_animaux') }}" class="btnAction">Retour</a>
+    <a href="{{ path('admin_animaux') }}" class="btnActionA">Retour</a>
 
 {% endblock %}
