@@ -12,43 +12,50 @@
 {% block title %}Animaux{% endblock %}
 
 {% block content %}
-<div class="btnAction">
-        <a href="{{ path('app_adminAnimal_new') }}">Ajouter un Animal</a>
+<div>
+        <a href="{{ path('app_adminAnimal_new') }}" class="btnActionA">Ajouter un Animal</a>
     </div>
-<h1>Liste des Animaux par Zone</h1>
-    {% for area in areas %}
-        <h2>{{ area.name }}</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Race</th>
-                    <th>Image</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for animal in area.animals %}
-                    <tr>
-                        <td>{{ animal.name }}</td>
-                        <td>{{ animal.race }}</td>
-                        <td>
-                            {% for picture in animal.pictureAnimals %}
-                                <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" style="width: 100px; height: auto;"/>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            <a href="{{ path('app_adminAnimal_edit', {'id': animal.id}) }}" class="btnAction">Modifier</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4">Aucun animal trouvé dans cette zone.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Aucune zone trouvée.</p>
-    {% endfor %}
+<h1 class="titreAnimal">Liste des Animaux par Zone</h1>
+   <div class="listeAnimauxContent">
+    <div class="gridContainer">
+        {% for area in areas %}
+            <div class="gridItem">
+                <h2>{{ area.name }}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Race</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for animal in area.animals %}
+                            <tr>
+                                <td>{{ animal.name }}</td>
+                                <td>{{ animal.race }}</td>
+                                <td>
+                                    {% for picture in animal.pictureAnimals %}
+                                        <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" style="width: 70px; height: auto;"/>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_adminAnimal_edit', {'id': animal.id}) }}" class="btnActionAnimal">Modifier</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">Aucun animal trouvé dans cette zone.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Aucune zone trouvée.</p>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
