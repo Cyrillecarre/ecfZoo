@@ -12,18 +12,18 @@
 {% block title %}habitats{% endblock %}
 
 {% block content %}
-<h1>Liste des Zones</h1>
+<h1 class="titreAnimal">Liste des Zones</h1>
     <div class="listeArea">
         {% for area in areas %}
             <div class="areaItem">
                 <hr class="hrListe">
-                <p>{{ area.name }}</p>
-                <p>{{ area.description }}</p>
+                <p class="titreAreaDash">{{ area.name }}</p>
                 <div class="imageDash">
                     {% for image in area.images %}
-                    <img src="{{ asset('uploads/' ~ image.path) }}" alt="Image" class="imageDash" />
+                    <img src="{{ asset('uploads/' ~ image.path) }}" alt="Image" class="imageDashContent" />
                     {% endfor %}
                 </div>
+                <p>{{ area.description }}</p>
                 <p>{{ area.comment }}</p>
                 <div class="btnPosition">
                     <a href="{{ path('admin_area_edit', { id: area.id }) }}" class="btnAction">Modifier</a>

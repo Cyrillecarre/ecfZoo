@@ -46,6 +46,7 @@ class AreaController extends AbstractController
         return $this->render('area/area1.html.twig', [
             'area' => $area,
             'pictures' => $area->getImages(),
+            'animals' => $area->getAnimals(),
         ]);
     }
 
@@ -61,6 +62,7 @@ class AreaController extends AbstractController
         return $this->render('area/area2.html.twig', [
             'area' => $area,
             'pictures' => $area->getImages(),
+            'animals' => $area->getAnimals(),
         ]);
     }
 
@@ -76,6 +78,7 @@ class AreaController extends AbstractController
         return $this->render('area/area3.html.twig', [
             'area' => $area,
             'pictures' => $area->getImages(),
+            'animals' => $area->getAnimals(),
         ]);
     }
 

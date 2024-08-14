@@ -3,12 +3,15 @@
 {% block title %}Zone Tropical{% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{ asset('styles/area.css') }}">
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js" defer></script>
     <script src="{{ asset('scripts/area.js') }}" defer></script>
 {% endblock %}
+
 
 
 {% block body %}
@@ -22,9 +25,30 @@
             {% endfor %}
         </div>
         <p class="areaDescription">{{ area.description }}</p>
-    <a href="{{ path('app_home') }}" class="btnArea" id="backButton">Retour</a>
+    
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for animal in animals %}
+                <div class="swiper-slide">
+                    <h3 class="animalName">{{ animal.name }}</h3>
+                    <div class="animalImages">
+                        {% for picture in animal.pictureAnimals %}
+                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" class="animalImage">
+                        {% endfor %}
+                    </div>
+                    <p class="animalRace">{{ animal.race }}</p>
+                </div>
+            {% else %}
+                <p>Aucun animal trouvé dans cette zone.</p>
+            {% endfor %}
+        </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
     </div>
+    <a href="{{ path('app_home') }}" class="btnArea" id="backButton">Retour</a>
     <div class="backgroundArea1"></div>
+</div>
 </main>
 {% include 'footer.html.twig' %}
 {% endblock %}

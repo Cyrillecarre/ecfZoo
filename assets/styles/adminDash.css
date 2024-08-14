@@ -233,6 +233,25 @@ label[for*="token"] {
     width: 10rem;
     height: auto;
     margin: 0 auto;
+    gap: 1rem;
+}
+
+.imageDashContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 20rem;
+    height: 14rem;
+    margin: 0 auto;
+}
+
+.titreAreaDash {
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
 }
 
 .titreAnimal {
