@@ -15,12 +15,10 @@
     <h1 class="titrePrestation">Nos prestations</h1>
     <article class="article2">
         {% for service in services %}
-        <div>
+        <div class="service-item">
             <h2 class="titrePrestationContent">{{ service.name }}</h2>
             <p class="text">{{ service.descritpion }}</p>
-            <div class="contentPrestationRestauration">
-                <img src="{{ asset(service.picture) }}" alt="{{ service.name }}">
-            </div>
+            <img class="contentPrestationRestauration" src="{{ asset(service.picture) }}" alt="{{ service.name }}">
         </div>
         {% endfor %}
     </article>

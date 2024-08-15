@@ -185,60 +185,65 @@ html {
     color: black;
 }
 
-.titrePrestationContent{
+.article2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 75%;
+    margin: 0 auto;
+    justify-items: center;
+}
+
+.service-item {
+    display: grid;
+    grid-template-rows: 7rem 6rem 30rem;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.text {
     display: flex;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 20rem;
+    font-size: 1em;
+    color: black;
+    border: 1px solid black;
+    margin: 0 auto;
+    border-radius: 0.2rem;
+    box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
+    margin-bottom: 0.8rem;
+}
+
+.titrePrestationContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     font-size: 1.5em;
     color: black;
 }
 
-.texte {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-size: 1em;
-    color: black;
-}
-
-.article2 {
-    display: grid;
-    grid-template-columns: 30% 30% 30%;
-    justify-content: center;
-    align-items: flex-start;
-    justify-items: center;
-    width: 90%;
-    margin: 0 auto;
-    gap: 0.5rem;
-}
-
 .contentPrestationRestauration {
-    display: flex;
+    display: block;
     justify-content: center;
-    text-align: center;
     height: 30rem;
     width: 20rem;
     margin: 0 auto;
     border-radius: 0.2rem;
-    border: 1px solid black;
     box-shadow: 4px 4px rgb(213, 250, 151),-4px -4px rgb(164, 208, 249);
     overflow: hidden;
-    position: relative;
 }
 
-.contentPrestationRestauration img {
-    width: 100%; /* Prend 100% de la largeur du conteneur */
-    height: 100%; /* Prend 100% de la hauteur du conteneur */
-    object-fit: cover; /* Ajuste l'image pour couvrir le conteneur sans déformation */
-}
-
-.titrePrestationContent, .texte, .contentPrestationRestauration, .contentPrestationBoutique, .contentPrestationAnimation {
+.titrePrestationContent, .texte, .contentPrestationRestauration, .contentPrestationBoutique, .contentPrestationAnimation, .text{
     opacity: 0;
     transform: translateX(100%);
     transition: all 1s ease-out;
 }
 
-.titrePrestationContent.appear, .texte.appear {
+.titrePrestationContent.appear, .texte.appear, .text.appear {
     opacity: 1;
     transform: translateX(0);
 }
