@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/review.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/review.js') }}"defer></script>
+{% endblock %}
+
+{% block title %}Review index{% endblock %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+<main class="mainReview">
+    <h1 class="titreReview">Liste des Commentaire</h1>
+    <div class="addReviewContent">
+        <div class="addReview">
+            <a href="{{ path('app_review_new') }}">Ajouter un commentaire</a>
+        </div>
+        <div class="starTitre">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead">
+            <tr>
+                <th>Nom</th>
+                <th>Note</th>
+                <th>Commentaire</th>
+                <th>Date</th>
+                <th>Validé ?</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody class="thead">
+        {% for review in reviews %}
+            <tr>
+                <td>{{ review.name }}</td>
+                <td>{% for i in 1..5 %}
+                        {% if i <= review.count %}
+                            <span class="star">&#9733;</span>
+                        {% else %}
+                            <span class="star">&#9734;</span>
+                        {% endif %}
+                    {% endfor %}</td>
+                <td>{{ review.content }}</td>
+                <td>{{ review.date ? review.date|date('Y-m-d') : '' }}</td>
+                <td>{{ review.isApprouved ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_review_show', {'id': review.id}) }}">show</a>
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_review_new') }}">Create new</a>
+</main>
+{% endblock %}
