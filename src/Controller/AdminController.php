@@ -24,6 +24,9 @@ use App\Repository\AnimalRepository;
 use App\Entity\Animal;
 use App\Form\AnimalType;
 use App\Entity\PictureAnimal;
+use App\Repository\ServiceRepository;
+use App\Entity\Service;
+use App\Form\ServiceType;
 
 
 
@@ -362,5 +365,55 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/service', name: 'admin_service', methods: ['GET'])]
+    public function indexService(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('admin/service.html.twig', [
+            'services' => $serviceRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_adminService_edit', methods: ['GET', 'POST'])]
+    public function editService(Request $request, Service $service, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ServiceType::class, $service);
+        $form->handleRequest($request);
+
+        $oldFilename = $service->getPicture();
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $imageFile = $form->get('picture')->getData();
+
+        if ($imageFile) {
+            $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir') . '/public/uploads',
+                    $newFilename
+                );
+
+                $service->setPicture('/uploads/' . $newFilename);
+
+                if ($oldFilename && file_exists($this->getParameter('kernel.project_dir') . '/public' . $oldFilename)) {
+                    unlink($this->getParameter('kernel.project_dir') . '/public' . $oldFilename);
+                }
+            } catch (FileException $e) {
+
+            }
+        } else {
+            $service->setPicture($oldFilename);
+        }
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/service.html.twig', [
+            'service' => $service,
+            'form' => $form,
+        ]);
     }
 }
