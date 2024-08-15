@@ -125,6 +125,25 @@
     margin-top: 2rem;
 }
 
+.btnActionS {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+    text-decoration: none;
+    margin: 0 auto;
+}
+
 .btnActionAnimal {
     display: flex;
     cursor: pointer;

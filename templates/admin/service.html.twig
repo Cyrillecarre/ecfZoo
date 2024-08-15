@@ -1,0 +1,33 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/service.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/home.js') }}" defer></script>
+{% endblock %}
+
+{% block title %}Service{% endblock %}
+
+{% block content %}
+<main class="prestation">
+    <article class="article2">
+        {% for service in services %}
+        <div class="service-item">
+            <h2 class="titrePrestationContent">{{ service.name }}</h2>
+            <p class="text">{{ service.descritpion }}</p>
+            <img class="contentPrestationRestauration" src="{{ asset(service.picture) }}" alt="{{ service.name }}">
+            <a href="{{ path('app_service_edit', {'id': service.id}) }}" class="btnActionS">Modifier</a>
+                <form method="post" action="{{ path('app_service_delete', {'id': service.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ service.id) }}">
+                    <button class="btnActionS">Supprimer</button>
+                </form>
+        </div>
+        {% endfor %}
+    </article>
+</main>
+
+{% endblock %}
