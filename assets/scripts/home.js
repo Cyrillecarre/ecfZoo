@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 window.addEventListener('scroll', function() {
     const titres = document.querySelectorAll('.titrePrestationContent');
     const textes = document.querySelectorAll('.texte');
+    const text = document.querySelectorAll('.text');
     const spans = document.querySelectorAll('.contentPrestationRestauration, .contentPrestationBoutique, .contentPrestationAnimation');
 
     // Fonction pour vérifier si un élément est visible
@@ -41,6 +42,14 @@ window.addEventListener('scroll', function() {
     });
 
     textes.forEach((texte, index) => {
+        if (isVisible(texte)) {
+            setTimeout(() => {
+                texte.classList.add('appear');
+            }, index * 100); // Délai entre chaque texte
+        }
+    });
+
+    text.forEach((texte, index) => {
         if (isVisible(texte)) {
             setTimeout(() => {
                 texte.classList.add('appear');
