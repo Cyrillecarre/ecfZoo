@@ -342,4 +342,236 @@ label[for*="token"] {
     max-height: 4rem;
 }
 
+/* review.css */
+
+.mainReview {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: -30rem;
+}
+
+.mainReview {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 10rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+}
+
+.titreReview {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+}
+
+.addReviewContent {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.starTitre {
+    display: flex;
+    flex-direction: row;
+    width: 20rem;
+    height: 4rem;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(206, 202, 202, 0.612);
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.starTitre span {
+    font-size: 40px;
+    margin: 5px;
+    padding: 3px;
+    background-color: rgba(160, 158, 158, 0.612);
+    border: 1px solid black;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+
+.addReview {
+    display: flex;
+    cursor: pointer;
+    width: 15rem;
+    height: 4rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+}
+
+.addReview a {
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.thead th {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: normal; /* Enlever le gras par défaut pour un style plus moderne */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternance de couleurs pour les lignes */
+}
+
+td, th {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd; /* Ligne de séparation subtile */
+}
+
+.star {
+    color: gold; 
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+    margin-right: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* style formulaire */
+
+.mainReview {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.mainReviewForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    transform: translateX(37%);
+    width: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+    margin-bottom: 10rem;
+}
+
+.titreForm {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+}
+
+.formReview {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 50%;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.mainReviewForm button {
+    display: flex;
+    margin: 0 auto;
+}
+
+.btnActionForm {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+}
+
+.btnActionReview {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    margin: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+    background-color: white;
+}
+.star.red {
+    color: red;
+}
+.star.orange {
+    color: orange;
+}
+.star.yellow {
+    color: rgba(238, 238, 91, 0.984);
+}
+.star.lightgreen {
+    color: lightgreen;
+}
+.star.green {
+    color: green;
+}
 

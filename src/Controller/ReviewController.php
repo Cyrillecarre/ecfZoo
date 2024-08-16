@@ -17,7 +17,7 @@ class ReviewController extends AbstractController
     #[Route('/', name: 'app_review_index', methods: ['GET'])]
     public function index(ReviewRepository $reviewRepository): Response
     {
-        $reviews = $reviewRepository->findAll();
+        $reviews = $reviewRepository->findBy(['isApprouved' => true]);
         $totalReviews = count($reviews);
 
         $sum = array_reduce($reviews, fn($carry, $item) => $carry + $item->getCount(), 0);
@@ -81,14 +81,4 @@ class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_review_delete', methods: ['POST'])]
-    public function delete(Request $request, Review $review, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$review->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($review);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
-    }
 }

@@ -27,6 +27,8 @@ use App\Entity\PictureAnimal;
 use App\Repository\ServiceRepository;
 use App\Entity\Service;
 use App\Form\ServiceType;
+use App\Repository\ReviewRepository;
+use App\Entity\Review;
 
 
 
@@ -415,5 +417,40 @@ class AdminController extends AbstractController
             'service' => $service,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/admin_review', name: 'admin_review', methods: ['GET'])]
+    public function indexReview(ReviewRepository $reviewRepository): Response
+    {
+        $reviews = $reviewRepository->findAll();
+        $totalReviews = count($reviews);
+
+        $sum = array_reduce($reviews, fn($carry, $item) => $carry + $item->getCount(), 0);
+        $averageRating = $totalReviews > 0 ? $sum / $totalReviews : 0;
+
+        return $this->render('admin/review.html.twig', [
+            'reviews' => $reviews,
+            'totalReviews' => $totalReviews,
+            'averageRating' => $averageRating,
+        ]);
+    }
+
+    #[Route('/{id}/approve', name: 'app_review_approve', methods: ['GET'])]
+    public function approve(Review $review, EntityManagerInterface $entityManager): Response
+    {
+
+    $review->setApprouved(true);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('admin_review');
+    }
+
+    #[Route('/{id}/delete', name: 'app_adminReview_delete', methods: ['GET'])]
+    public function deleteReview(Review $review, EntityManagerInterface $entityManager): Response
+    {
+    $entityManager->remove($review);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('admin_review');
     }
 }
