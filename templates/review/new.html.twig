@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/review.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/review.js') }}"defer></script>
+{% endblock %}
+
 {% block title %}New Review{% endblock %}
 
 {% block body %}
-    <h1>Create new Review</h1>
+{% include 'header.html.twig' %}
+<main class="mainReviewForm">
+    <h1 class="titreForm">Ajouter un avis</h1>
+    <div class="formReview">
+        {{ include('review/_form.html.twig') }}
+    </div>
 
-    {{ include('review/_form.html.twig') }}
-
-    <a href="{{ path('app_review_index') }}">back to list</a>
+    <a href="{{ path('app_review_index') }}" class="btnActionReview">Retour</a>
+</main>
+{% include 'footer.html.twig' %}
 {% endblock %}

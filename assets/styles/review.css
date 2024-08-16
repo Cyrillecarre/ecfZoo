@@ -1,13 +1,3 @@
-/* Styles généraux pour la page */
-body {
-    font-family: 'Arial', sans-serif; /* Utilisez la police que vous préférez */
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    
-}
-
 .mainReview {
     width: 60%;
     margin: 0 auto;
@@ -19,6 +9,7 @@ body {
     grid-template-columns: 1fr;
     gap: 20px;
     padding: 20px;
+    margin-bottom: 10rem;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
@@ -39,8 +30,8 @@ body {
 .starTitre {
     display: flex;
     flex-direction: row;
-    width: 25rem;
-    height: 5rem;
+    width: 20rem;
+    height: 4rem;
     justify-content: center;
     align-items: center;
     background-color: rgba(206, 202, 202, 0.612);
@@ -49,7 +40,7 @@ body {
 }
 
 .starTitre span {
-    font-size: 45px;
+    font-size: 40px;
     margin: 5px;
     padding: 3px;
     background-color: rgba(160, 158, 158, 0.612);
@@ -110,10 +101,9 @@ td, th {
     border-bottom: 1px solid #ddd; /* Ligne de séparation subtile */
 }
 
-/* Styles pour les étoiles et les actions */
 .star {
-    color: gold; /* Étoiles dorées */
-    font-size: 18px; /* Taille des étoiles */
+    color: gold; 
+    font-size: 18px;
 }
 
 a {
@@ -126,17 +116,112 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Bouton pour créer une nouvelle revue */
-a[href$="app_review_new"] {
-    display: inline-block;
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-top: 20px;
-    text-align: center;
+/* style formulaire */
+
+.mainReviewForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -30rem;
+    padding: 3rem;
+    transform: translateX(37%);
+    width: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+    margin-bottom: 10rem;
 }
 
-a[href$="app_review_new"]:hover {
-    background-color: #218838;
+.titreForm {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
 }
+
+.formReview {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 50%;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.mainReviewForm button {
+    display: flex;
+    margin: 0 auto;
+}
+
+.btnActionForm {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+}
+
+.btnActionReview {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    margin: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+    background-color: white;
+}
+.star.red {
+    color: red;
+}
+.star.orange {
+    color: orange;
+}
+.star.yellow {
+    color: rgba(238, 238, 91, 0.984);
+}
+.star.lightgreen {
+    color: lightgreen;
+}
+.star.green {
+    color: green;
+}
+

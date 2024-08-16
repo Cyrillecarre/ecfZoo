@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     const stars = document.querySelectorAll('.starTitre .star');
+    const starInput = document.querySelector('[data-js-target="starRating"]');
 
     stars.forEach((star, index) => {
         star.addEventListener('mouseenter', () => {
-            // Applique le style à l'étoile courante et aux précédentes
             for (let i = 0; i <= index; i++) {
                 stars[i].style.color = getColor(index);
                 stars[i].style.transform = 'scale(1.2)';
@@ -11,26 +11,47 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         star.addEventListener('mouseleave', () => {
-            // Retire le style de toutes les étoiles
-            stars.forEach(s => {
-                s.style.color = '';
-                s.style.transform = '';
+            stars.forEach((s, i) => {
+                if (!s.classList.contains('selected')) {
+                    s.style.color = '';
+                    s.style.transform = '';
+                }
             });
+        });
+
+        star.addEventListener('click', () => {
+            const starValue = index + 1;
+            starInput.value = starValue;
+
+            stars.forEach((s, i) => {
+                if (i <= index) {
+                    s.classList.add('selected');
+                    s.style.color = getColor(index);
+                    s.style.transform = 'scale(1.2)';
+                } else {
+                    s.classList.remove('selected');
+                    s.style.color = '';
+                    s.style.transform = '';
+                }
+            });
+
+            console.log('Étoile cliquée:', starValue);
+            console.log('Valeur actuelle de count:', starInput.value);
         });
     });
 
     function getColor(index) {
         switch (index) {
             case 0:
-                return 'red'; // Étoile 1
+                return 'red'; 
             case 1:
-                return 'orange'; // Étoile 2
+                return 'orange'; 
             case 2:
-                return 'yellow'; // Étoile 3
+                return 'yellow'; 
             case 3:
-                return 'lightGreen'; // Étoile 4
+                return 'lightgreen'; 
             case 4:
-                return 'green'; // Étoile 5
+                return 'green'; 
         }
     }
 });
