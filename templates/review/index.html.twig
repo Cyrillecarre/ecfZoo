@@ -8,7 +8,7 @@
     <script src="{{ asset('scripts/review.js') }}"defer></script>
 {% endblock %}
 
-{% block title %}Review index{% endblock %}
+{% block title %}Review{% endblock %}
 
 {% block body %}
 {% include 'header.html.twig' %}
@@ -17,6 +17,10 @@
     <div class="addReviewContent">
         <div class="addReview">
             <a href="{{ path('app_review_new') }}">Ajouter un commentaire</a>
+        </div>
+        <div class="reviewTotal">
+            <p>Total d'avis : {{ totalReviews }}</p>
+            <p>Note moyenne : {{ averageRating|number_format(2) }}</p>
         </div>
         <div class="starTitre">
             <span class="star">&#9733;</span>
@@ -41,13 +45,15 @@
         {% for review in reviews %}
             <tr>
                 <td>{{ review.name }}</td>
-                <td>{% for i in 1..5 %}
-                        {% if i <= review.count %}
-                            <span class="star">&#9733;</span>
-                        {% else %}
-                            <span class="star">&#9734;</span>
-                        {% endif %}
-                    {% endfor %}</td>
+                <td>
+                {% for i in 1..5 %}
+                    {% if i <= review.count %}
+                        <span class="star {% if review.count == 1 %}red{% elseif review.count == 2 %}orange{% elseif review.count == 3 %}yellow{% elseif review.count == 4 %}lightgreen{% else %}green{% endif %}">&#9733;</span>
+                    {% else %}
+                        <span class="star">&#9734;</span>
+                    {% endif %}
+                {% endfor %}
+                </td>
                 <td>{{ review.content }}</td>
                 <td>{{ review.date ? review.date|date('Y-m-d') : '' }}</td>
                 <td>{{ review.isApprouved ? 'Yes' : 'No' }}</td>
@@ -66,4 +72,5 @@
 
     <a href="{{ path('app_review_new') }}">Create new</a>
 </main>
+{% include 'footer.html.twig' %}
 {% endblock %}

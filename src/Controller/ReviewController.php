@@ -17,8 +17,16 @@ class ReviewController extends AbstractController
     #[Route('/', name: 'app_review_index', methods: ['GET'])]
     public function index(ReviewRepository $reviewRepository): Response
     {
+        $reviews = $reviewRepository->findAll();
+        $totalReviews = count($reviews);
+
+        $sum = array_reduce($reviews, fn($carry, $item) => $carry + $item->getCount(), 0);
+        $averageRating = $totalReviews > 0 ? $sum / $totalReviews : 0;
+
         return $this->render('review/index.html.twig', [
-            'reviews' => $reviewRepository->findAll(),
+            'reviews' => $reviews,
+            'totalReviews' => $totalReviews,
+            'averageRating' => $averageRating,
         ]);
     }
 
@@ -30,6 +38,11 @@ class ReviewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($review->getCount() === null) {
+                throw new \Exception('La valeur de count est nulle.');
+            }
+
             $entityManager->persist($review);
             $entityManager->flush();
 
