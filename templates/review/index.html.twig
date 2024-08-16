@@ -30,38 +30,33 @@
             <span class="star">&#9733;</span>
         </div>
     </div>
-    <table class="table">
-        <thead class="thead">
-            <tr>
-                <th>Nom</th>
-                <th>Note</th>
-                <th>Commentaire</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody class="thead">
+    <div class="reviews-grid">
         {% for review in reviews %}
-            <tr>
-                <td>{{ review.name }}</td>
-                <td>
-                {% for i in 1..5 %}
-                    {% if i <= review.count %}
-                        <span class="star {% if review.count == 1 %}red{% elseif review.count == 2 %}orange{% elseif review.count == 3 %}yellow{% elseif review.count == 4 %}lightgreen{% else %}green{% endif %}">&#9733;</span>
-                    {% else %}
-                        <span class="star">&#9734;</span>
-                    {% endif %}
-                {% endfor %}
-                </td>
-                <td>{{ review.content }}</td>
-                <td>{{ review.date ? review.date|date('Y-m-d') : '' }}</td>
-            </tr>
+            <div class="review-card">
+                <div class="review-header">
+                    <h3>{{ review.name }}</h3>
+                    <div class="review-stars">
+                        {% for i in 1..5 %}
+                            {% if i <= review.count %}
+                                <span class="star {% if review.count == 1 %}red{% elseif review.count == 2 %}orange{% elseif review.count == 3 %}yellow{% elseif review.count == 4 %}lightgreen{% else %}green{% endif %}">&#9733;</span>
+                            {% else %}
+                                <span class="star">&#9734;</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr class="hrReview">
+                <div class="review-content">
+                    <p>{{ review.content }}</p>
+                </div>
+                <div class="review-footer">
+                    <p>Date : {{ review.date ? review.date|date('Y-m-d') : '' }}</p>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            <p>Aucun commentaire n'a été trouvé.</p>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 </main>
 {% include 'footer.html.twig' %}
 {% endblock %}
