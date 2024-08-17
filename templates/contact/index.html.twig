@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/contact.css') }}">
+{% endblock %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+<main class="mainContact">
+<div class="mainContactForm">
+<h1 class="titreContact">Contactez-nous</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(form, {'attr': {'class': 'contact-form'}}) }}
+
+    <div class="form-group">
+        {{ form_label(form.email, 'Votre Email', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.subject, 'Sujet', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.subject) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.message, 'Message', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.message, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+        {{ form_errors(form.message) }}
+    </div>
+
+    <div class="form-groupSubmit">
+        {{ form_widget(form.submit, {'attr': {'class': 'btnActionForm'}}) }}
+    </div>
+    {{ form_end(form) }}
+</div>
+</main>
+{% include 'footer.html.twig' %}
+{% endblock %}
