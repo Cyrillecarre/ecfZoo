@@ -49,7 +49,6 @@
     cursor: pointer;
 }
 
-
 .addReview {
     display: flex;
     cursor: pointer;
@@ -90,16 +89,16 @@
     color: white;
     padding: 12px 15px;
     text-align: left;
-    font-weight: normal; /* Enlever le gras par défaut pour un style plus moderne */
+    font-weight: normal;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2; /* Alternance de couleurs pour les lignes */
+    background-color: #f2f2f2;
 }
 
 td, th {
     padding: 12px 15px;
-    border-bottom: 1px solid #ddd; /* Ligne de séparation subtile */
+    border-bottom: 1px solid #ddd;
 }
 
 .star {
@@ -124,13 +123,13 @@ a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: -30rem;
+    margin: 0 auto;
     padding: 3rem;
-    transform: translateX(37%);
     width: 50%;
     background: rgba(255, 255, 255, 0.4);
     border-radius: 8px;
     box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+    margin-top: -30rem;
     margin-bottom: 10rem;
 }
 

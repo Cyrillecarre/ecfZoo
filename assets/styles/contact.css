@@ -1,0 +1,80 @@
+.mainContact {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: -30rem;
+}
+
+.titreContact {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+}
+
+.mainContactForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 3rem;
+    width: 60%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+    margin-top: -30rem;
+    margin-bottom: 10rem;
+}
+
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 90%;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535; 
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: rgb(213, 246, 234, 0.9);
+}
+
+.form-groupSubmit {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btnActionForm {
+    display: flex;
+    cursor: pointer;
+    width: 10rem;
+    height: 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    border: 0.2px solid black;
+    overflow: hidden;
+    color: black;
+    z-index: 1;
+    position: relative;
+    box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
+}
