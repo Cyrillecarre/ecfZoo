@@ -4,18 +4,24 @@ body {
   font-family: 'Roboto', sans-serif;
   overflow-x: hidden;
 }
+
 .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  height: 80vh;
-  z-index: 10;
+  position: relative;
   width: 100%;
-  padding-left: 1rem;
+  height: 79vh;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2rem;
 }
 
-.header {
+.logo-container {
+  position: absolute;
+  left: 0;
+  padding-left: 1rem;
+  margin-top: -1rem;
+}
+
+.header2 {
   display: flex;
   height: 6rem;
   width: auto;
@@ -23,6 +29,13 @@ body {
   align-items: center;
   color: #fff;
   z-index: 20;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 .logo {
@@ -37,7 +50,6 @@ body {
     justify-content: center;
     background: rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    width: auto;
     padding-right: 1rem;
     padding-left: 1rem;
     border-radius: 12px;
@@ -75,5 +87,5 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: -10;
+    z-index: -1;
 }

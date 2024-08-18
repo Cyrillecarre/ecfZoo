@@ -358,7 +358,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_adminAnimal_delete', methods: ['POST'])]
+    #[Route('/admin/animal/delete/{id}', name: 'app_adminAnimal_delete', methods: ['POST'])]
     public function deleteAnimal(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$animal->getId(), $request->getPayload()->getString('_token'))) {

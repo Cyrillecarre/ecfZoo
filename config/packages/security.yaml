@@ -4,78 +4,42 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        admin_provider:
-            entity:
-                class: App\Entity\Admin
-                property: email
-        veterinary_provider:
+        app_user_provider_chain:
+            chain:
+                providers: ['app_user_provider_veterinary', 'app_user_provider_admin', 'app_user_provider_employe']
+
+        app_user_provider_veterinary:
             entity:
                 class: App\Entity\Veterinary
                 property: email
-        employe_provider:
+
+        app_user_provider_admin:
+            entity:
+                class: App\Entity\Admin
+                property: email
+        
+        app_user_provider_employe:
             entity:
                 class: App\Entity\Employe
                 property: email
+
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        admin:
-            provider: admin_provider
-            pattern: ^/admin
-            lazy: true
-            custom_authenticator: App\Security\SecurityAuthenticator
-            logout:
-                path: app_logout
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-                always_remember_me: true
-
-        veterinary:
-            provider: veterinary_provider
-            pattern: ^/veterinary
-            lazy: true
-            custom_authenticator: App\Security\SecurityAuthenticator
-            logout:
-                path: app_logout
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-                always_remember_me: true
-
-        employe:
-            provider: employe_provider
-            pattern: ^/employe
-            lazy: true
-            custom_authenticator: App\Security\SecurityAuthenticator
-            logout:
-                path: app_logout
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-                always_remember_me: true
-
         main:
             lazy: true
-            provider: admin_provider
             custom_authenticator: App\Security\SecurityAuthenticator
+            provider: app_user_provider_chain
             logout:
                 path: app_logout
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-                always_remember_me: true
-
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/veterinary, roles: ROLE_VETERINARY }
         - { path: ^/employe, roles: ROLE_EMPLOYE }
+
+
 when@test:
     security:
         password_hashers:
