@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\RecommandationVeterinaryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,12 +14,6 @@ class RecommandationVeterinary
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $food = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $quantity = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $medicine = null;
@@ -39,33 +34,20 @@ class RecommandationVeterinary
     #[ORM\JoinColumn(nullable: false)]
     private ?Animal $Animal = null;
 
+    /**
+     * @var Collection<int, Food>
+     */
+    #[ORM\ManyToMany(targetEntity: Food::class, inversedBy: 'recommandationVeterinaries', cascade: ['persist'])]
+    private Collection $foods;
+
+    public function __construct()
+    {
+        $this->foods = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFood(): ?string
-    {
-        return $this->food;
-    }
-
-    public function setFood(?string $food): static
-    {
-        $this->food = $food;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(?int $quantity): static
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getMedicine(): ?string
@@ -73,7 +55,7 @@ class RecommandationVeterinary
         return $this->medicine;
     }
 
-    public function setMedicine(?string $medicine): static
+    public function setMedicine(?string $medicine): self
     {
         $this->medicine = $medicine;
 
@@ -85,7 +67,7 @@ class RecommandationVeterinary
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -97,7 +79,7 @@ class RecommandationVeterinary
         return $this->state;
     }
 
-    public function setState(string $state): static
+    public function setState(string $state): self
     {
         $this->state = $state;
 
@@ -109,7 +91,7 @@ class RecommandationVeterinary
         return $this->recommandation;
     }
 
-    public function setRecommandation(?string $recommandation): static
+    public function setRecommandation(?string $recommandation): self
     {
         $this->recommandation = $recommandation;
 
@@ -121,7 +103,7 @@ class RecommandationVeterinary
         return $this->report;
     }
 
-    public function setReport(?string $report): static
+    public function setReport(?string $report): self
     {
         $this->report = $report;
 
@@ -133,9 +115,33 @@ class RecommandationVeterinary
         return $this->Animal;
     }
 
-    public function setAnimal(Animal $Animal): static
+    public function setAnimal(Animal $Animal): self
     {
         $this->Animal = $Animal;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Food>
+     */
+    public function getFoods(): Collection
+    {
+        return $this->foods;
+    }
+
+    public function addFood(Food $food): self
+    {
+        if (!$this->foods->contains($food)) {
+            $this->foods->add($food);
+        }
+
+        return $this;
+    }
+
+    public function removeFood(Food $food): self
+    {
+        $this->foods->removeElement($food);
 
         return $this;
     }

@@ -1,0 +1,58 @@
+{% extends 'veterinary/index.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}habitats{% endblock %}
+
+{% block content %}
+<h1>RecommandationVeterinary index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Medicine</th>
+                <th>Date</th>
+                <th>State</th>
+                <th>Recommandation</th>
+                <th>Report</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for recommandation_veterinary in recommandation_veterinaries %}
+    <tr>
+        <td>
+            {% for food in recommandation_veterinary.foods %}
+                {{ food.name }} ({{ food.quantity }}g)<br>
+            {% else %}
+                Aucun aliment recommandé.
+            {% endfor %}
+        </td>
+        <td>{{ recommandation_veterinary.medicine }}</td>
+        <td>{{ recommandation_veterinary.date ? recommandation_veterinary.date|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ recommandation_veterinary.state }}</td>
+        <td>{{ recommandation_veterinary.recommandation }}</td>
+        <td>{{ recommandation_veterinary.report }}</td>
+        <td>
+            <a href="{{ path('app_veterinaryRecommandation_veterinary_edit', {'id': recommandation_veterinary.id}) }}">edit</a>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="7">Aucune recommandation trouvée.</td>
+    </tr>
+{% endfor %}
+</tbody>
+    </table>
+
+    <a href="{{ path('app_veterinaryRecommandation_veterinary_new') }}">Create new</a>
+{% endblock %}

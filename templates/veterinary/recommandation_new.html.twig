@@ -1,0 +1,19 @@
+{% extends 'veterinary/index.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/admin.js') }}" defer></script>
+    <script src="{{ asset('scripts/veterinary.js') }}" defer></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+{% endblock %}
+
+{% block title %}habitats{% endblock %}
+
+{% block content %}
+<h1>RecommandationVeterinary new</h1>
+
+{{ include('recommandation_veterinary/_formR.html.twig') }}
+{% endblock %}
