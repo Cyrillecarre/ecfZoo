@@ -12,14 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
+
 #[Route('/veterinary')]
 class VeterinaryController extends AbstractController
 {
     #[Route('/', name: 'app_veterinary_index', methods: ['GET'])]
-    public function index(VeterinaryRepository $veterinaryRepository): Response
+    public function index(): Response
     {
         return $this->render('veterinary/index.html.twig', [
-            'veterinaries' => $veterinaryRepository->findAll(),
+            'controller_name' => 'VeterinaryController',
         ]);
     }
 
