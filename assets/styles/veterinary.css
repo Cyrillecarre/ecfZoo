@@ -1,109 +1,62 @@
-/* Resetting some default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.header {
-    width: 100%;
-    background-color: #90b168b5;
-    color: #fff;
-
-}
-
-.logo {
-    display: block;
-    width: 6rem;
-    height: 6rem;
-    border-radius: 50%;
-    margin-left: 2rem;
-    margin-right: 5rem;
-}
-
-.topBarLogo {
+.grid {
     display: grid;
-    grid-template-columns: 10% 90%;
-    justify-content: center;
-    align-items: center;
+    grid-template-columns: 1fr; 
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
-.top-bar {
+.gridContainer {
     display: flex;
-    justify-content:center;
-    align-items: center;
+    flex-direction: column; 
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
-.top-nav {
-    list-style: none;
-    display: flex;
+.details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-right: -10rem;
 }
 
-.top-nav li {
-    margin: 0 15px;
-}
-
-.top-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.top-nav a:hover {
-    text-decoration: underline;
-}
-
-/* Main container styles */
-.main-container {
-    display: flex;
-}
-
-/* Sidebar styles */
-.sidebar {
-    width: 10rem;
-    height: 100vh;
-    background-color: #317e31;
-    padding: 20px;
-    border-right: 1px solid #ddd;
-}
-
-.sidebar-nav {
-    list-style: none;
-    gap: 1rem;
-}
-
-.sidebarLi {
-    display: flex;
+.containerImg {
+    display: grid;
+    grid-template-columns: 1fr;
     width: 100%;
-    height: 3rem;
-    background-color: #c2c64f;
-    border: 1.3px solid black;
-    box-shadow: 0 0 0 1.5px white;
-    color: black;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    height: 29rem;
+    background-image: url('../images/parcheminbg.png');
+    background-size: cover;
+    background-position: 35% 40%;
+    padding-top: 1rem;
+    padding-left: 5rem;
+
 }
 
-.sidebarLi:hover {
-    cursor: pointer;
-    transform: scale(1.2);
+.detail-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 80%;
 }
 
-.sidebar-nav a {
-    text-decoration: none;
-    color: #333;
+.detail-item img {
+    width: 100%;
+    max-height: 4rem;
+}
+
+.label {
+    font-family: fantasy;
+    height: 2rem;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.value {
+    text-align: left;
+}
+
+.valueImg {
     display: block;
-    padding: 10px;
-    border-radius: 4px;
+    width: 5rem;
+    height: 5rem;
 }
 
-.sidebar-nav a:hover {
-    background-color: #ddd;
-}
-
-.content {
-    flex: 1;
-    padding: 20px;
-}
