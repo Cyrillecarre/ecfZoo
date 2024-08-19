@@ -33,6 +33,42 @@ class VeterinaryController extends AbstractController
         ]);
     }
 
+    #[Route('/tropical', name: 'app_veterinaryTropical_index', methods: ['GET'])]
+    public function indexTropical(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationsTropical = array_filter(
+            $recommandationVeterinaryRepository->findAll(),
+            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Tropical'
+        );
+        return $this->render('veterinary/tropical.html.twig', [
+            'recommandation_veterinaries' => $recommandationsTropical,
+        ]);
+    }
+
+    #[Route('/savane', name: 'app_veterinarySavane_index', methods: ['GET'])]
+    public function indexSavane(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationsSavane = array_filter(
+            $recommandationVeterinaryRepository->findAll(),
+            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Savane'
+        );
+        return $this->render('veterinary/savane.html.twig', [
+            'recommandation_veterinaries' => $recommandationsSavane,
+        ]);
+    }
+
+    #[Route('/desert', name: 'app_veterinaryDesert_index', methods: ['GET'])]
+    public function indexDesert(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationsDesert = array_filter(
+            $recommandationVeterinaryRepository->findAll(),
+            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Desert'
+        );
+        return $this->render('veterinary/desert.html.twig', [
+            'recommandation_veterinaries' => $recommandationsDesert,
+        ]);
+    }
+
     #[Route('/new', name: 'app_veterinary_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {

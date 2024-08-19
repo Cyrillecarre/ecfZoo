@@ -1,0 +1,73 @@
+{% extends 'veterinary/index.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/veterinary.css') }}">
+{% endblock %}
+
+{% block title %}Zone Tropicale{% endblock %}
+
+{% block content %}
+<h1>Compte rendu des visites vétérinaires - Zone Tropicale</h1>
+
+<div class="gridContainer">
+    <a href="{{ path('app_veterinaryRecommandation_veterinary_new', {'zone': 'Tropical'}) }}">Créer une nouvelle fiche de suivi</a>
+    <div class="details-container">
+        {% for recommandation_veterinary in recommandation_veterinaries %}
+            <div class="containerImg">
+                <div class="detail-item">
+                    <div class="label">Nom :</div>
+                    <div class="value">{{ recommandation_veterinary.animal.name }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Photo :</div>
+                    <div class="valueImg">
+                        {% for picture in recommandation_veterinary.animal.pictureAnimals %}
+                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ recommandation_veterinary.animal.name }}" width="100">
+                        {% else %}
+                            Pas de photo disponible.
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Date :</div>
+                    <div class="value">{{ recommandation_veterinary.date ? recommandation_veterinary.date|date('Y-m-d H:i:s') : '' }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Nourriture :</div>
+                    <div class="value">
+                        {% for food in recommandation_veterinary.foods %}
+                            {{ food.name }} ({{ food.quantity }}g)<br>
+                        {% else %}
+                            Aucun aliment recommandé.
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Traitement :</div>
+                    <div class="value">{{ recommandation_veterinary.medicine }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">État :</div>
+                    <div class="value">{{ recommandation_veterinary.state }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Recommandation :</div>
+                    <div class="value">{{ recommandation_veterinary.recommandation }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Enrichissement :</div>
+                    <div class="value">{{ recommandation_veterinary.report }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Actions :</div>
+                    <div class="value">
+                        <a href="{{ path('app_veterinaryRecommandation_veterinary_edit', {'id': recommandation_veterinary.id}) }}">Modifier</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</d>
+{% endblock %}
