@@ -40,22 +40,94 @@ class VeterinaryController extends AbstractController
             $recommandationVeterinaryRepository->findAll(),
             fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Tropical'
         );
-        return $this->render('veterinary/tropical.html.twig', [
-            'recommandation_veterinaries' => $recommandationsTropical,
-        ]);
+
+    return $this->render('veterinary/tropical.html.twig', [
+        'recommandation_veterinaries' => $recommandationsTropical,
+    ]);
     }
 
     #[Route('/savane', name: 'app_veterinarySavane_index', methods: ['GET'])]
     public function indexSavane(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsSavane = array_filter(
-            $recommandationVeterinaryRepository->findAll(),
-            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Savane'
-        );
-        return $this->render('veterinary/savane.html.twig', [
-            'recommandation_veterinaries' => $recommandationsSavane,
-        ]);
+        $recommandationsSavane = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->join('r.Animal', 'a')
+        ->join('a.area', 'ar')
+        ->where('ar.name = :zone')
+        ->setParameter('zone', 'Savane')
+        ->getQuery()
+        ->getResult();
+
+    return $this->render('veterinary/savane.html.twig', [
+        'recommandation_veterinaries' => $recommandationsSavane,
+    ]);
     }
+
+    #[Route('/tropical/new', name: 'app_veterinaryTropical_new', methods: ['GET', 'POST'])]
+    public function newTropical(Request $request, EntityManagerInterface $entityManager, RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationVeterinary = new RecommandationVeterinary();
+        $form = $this->createForm(RecommandationVeterinaryType::class, $recommandationVeterinary, [
+            'zone' => 'Tropical'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($recommandationVeterinary);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_veterinaryTropical_index');
+        }
+
+        return $this->render('veterinary/recommandation_new.html.twig', [
+        'recommandation_veterinary' => $recommandationVeterinary,
+        'form' => $form->createView(),
+    ]);
+    }
+
+    #[Route('/savane/new', name: 'app_veterinarySavane_new', methods: ['GET', 'POST'])]
+    public function newSavane(Request $request, EntityManagerInterface $entityManager, RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationVeterinary = new RecommandationVeterinary();
+        $form = $this->createForm(RecommandationVeterinaryType::class, $recommandationVeterinary, [
+            'zone' => 'Savane'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($recommandationVeterinary);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_veterinarySavane_index');
+        }
+
+    return $this->render('veterinary/recommandation_new.html.twig', [
+        'recommandation_veterinary' => $recommandationVeterinary,
+        'form' => $form->createView(),
+    ]);
+    }
+
+    #[Route('/desert/new', name: 'app_veterinaryDesert_new', methods: ['GET', 'POST'])]
+    public function newDesert(Request $request, EntityManagerInterface $entityManager, RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationVeterinary = new RecommandationVeterinary();
+        $form = $this->createForm(RecommandationVeterinaryType::class, $recommandationVeterinary, [
+            'zone' => 'Desert'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($recommandationVeterinary);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_veterinaryDesert_index');
+        }
+
+    return $this->render('veterinary/recommandation_new.html.twig', [
+        'recommandation_veterinary' => $recommandationVeterinary,
+        'form' => $form->createView(),
+    ]);
+    }
+
 
     #[Route('/desert', name: 'app_veterinaryDesert_index', methods: ['GET'])]
     public function indexDesert(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
