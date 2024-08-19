@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Entity\Food;
 use App\Form\FoodType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Repository\AnimalRepository;
 
 class RecommandationVeterinaryType extends AbstractType
 {
@@ -44,7 +45,13 @@ class RecommandationVeterinaryType extends AbstractType
         ])
         ->add('Animal', EntityType::class, [
             'class' => Animal::class,
-            'choice_label' => 'id',
+            'choice_label' => 'name',
+            'query_builder' => function(AnimalRepository $er) use ($options) {
+                return $er->createQueryBuilder('a')
+                          ->join('a.area', 'ar')
+                          ->where('ar.name = :zone')
+                          ->setParameter('zone', $options['zone']);
+            },
         ]);
     }
 
@@ -52,6 +59,7 @@ class RecommandationVeterinaryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => RecommandationVeterinary::class,
+            'zone' => null,
         ]);
     }
 }
