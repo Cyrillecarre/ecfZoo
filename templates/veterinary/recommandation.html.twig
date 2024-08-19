@@ -17,6 +17,8 @@
     <table class="table">
         <thead>
             <tr>
+                <th>nom</th>
+                <th>Picture</th>
                 <th>Food</th>
                 <th>Quantity</th>
                 <th>Medicine</th>
@@ -30,6 +32,14 @@
         <tbody>
 {% for recommandation_veterinary in recommandation_veterinaries %}
     <tr>
+        <td>{{ recommandation_veterinary.animal.name }}</td>
+        <td>
+            {% for picture in recommandation_veterinary.animal.pictureAnimals %}
+                <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ recommandation_veterinary.animal.name }}" width="100">
+            {% else %}
+                Pas de photo disponible.
+            {% endfor %}
+        </td>
         <td>
             {% for food in recommandation_veterinary.foods %}
                 {{ food.name }} ({{ food.quantity }}g)<br>
