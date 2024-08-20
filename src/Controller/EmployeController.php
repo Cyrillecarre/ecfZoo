@@ -15,6 +15,7 @@ use App\Repository\RecommandationVeterinaryRepository;
 use App\Repository\AnimalRepository;
 use App\Entity\Monitoring;
 use App\Form\MonitoringType;
+use App\Repository\MonitoringRepository;
 
 
 #[Route('/employe')]
@@ -70,8 +71,8 @@ class EmployeController extends AbstractController
     }
 
     #[Route('/monitoring/new/{animalId}', name: 'app_employeMonitoring_new', methods: ['GET', 'POST'])]
-public function newMonitoring(Request $request, EntityManagerInterface $entityManager, AnimalRepository $animalRepository, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, $animalId): Response
-{
+    public function newMonitoring(Request $request, EntityManagerInterface $entityManager, AnimalRepository $animalRepository, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, $animalId): Response
+    {
     $monitoring = new Monitoring();
     $animal = $animalRepository->find($animalId);
 
@@ -98,9 +99,30 @@ public function newMonitoring(Request $request, EntityManagerInterface $entityMa
         'form' => $form->createView(),
         'recommandation_veterinary' => $recommandationVeterinary,
     ]);
-}
+    }
 
 
+    #[Route('/pointsante', name: 'app_point_sante', methods: ['GET'])]
+    public function pointSante(AnimalRepository $animalRepository, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, MonitoringRepository $monitoringRepository): Response {
+        $animals = $animalRepository->findAll();
+
+        $data = [];
+
+        foreach ($animals as $animal) {
+            $recommandationVeterinary = $recommandationVeterinaryRepository->findOneBy(['Animal' => $animal], ['date' => 'DESC']);
+            $monitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+
+            $data[] = [
+                'animal' => $animal,
+                'recommandationVeterinary' => $recommandationVeterinary,
+                'monitoring' => $monitoring
+            ];
+        }
+
+        return $this->render('employe/pointSante.html.twig', [
+            'data' => $data,
+        ]);
+    }
 
 
     #[Route('/new', name: 'app_employe_new', methods: ['GET', 'POST'])]
