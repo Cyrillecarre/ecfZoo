@@ -8,12 +8,13 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/veterinary.css') }}">
 {% endblock %}
 
 {% block title %}habitats{% endblock %}
 
 {% block content %}
-<h1>RecommandationVeterinary new</h1>
+<h1>Nouveau rapport vétérinaire</h1>
 
 {{ include('recommandation_veterinary/_formR.html.twig') }}
 {% endblock %}

@@ -27,7 +27,7 @@ class FoodType extends AbstractType
                 'label' => 'Type d\'aliment',
             ])
             ->add('quantity', IntegerType::class, [
-                'label' => 'Quantité',
+                'label' => 'Quantité en grammes',
             ]);
     }
 

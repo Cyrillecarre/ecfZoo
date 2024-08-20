@@ -1,25 +1,37 @@
-{{ form_start(form) }}
-
-{{ form_row(form.medicine) }}
-{{ form_row(form.date) }}
-{{ form_row(form.state) }}
-{{ form_row(form.recommandation) }}
-{{ form_row(form.report) }}
-{{ form_row(form.Animal) }}
-
-<div id="foods-list">
-    {{ form_label(form.foods) }}
-    {{ form_errors(form.foods) }}
-    <ul data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
-        {% for foodForm in form.foods %}
-            <li>
-                {{ form_row(foodForm.name) }}
-                {{ form_row(foodForm.quantity) }}
-            </li>
-        {% endfor %}
-    </ul>
+<div class="form-container">
+    <div class="form-box">
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_row(form.Animal) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.date) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.state, { 'label': 'Etat' }) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.medicine, { 'label': 'Traitement' }) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.recommandation) }}
+        </div>
+        <div id="foods-list">
+            {{ form_label(form.foods) }}
+            {{ form_errors(form.foods) }}
+            <ul data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
+                {% for foodForm in form.foods %}
+                    <li>
+                        {{ form_row(foodForm.name) }}
+                        {{ form_row(foodForm.quantity) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="form-group">
+            {{ form_row(form.report, { 'label': 'Enrichissement' }) }}
+        </div>
+        <button type="submit" class="btnActionNew">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
 </div>
-
-<button type="submit" class="btn btn-primary">Enregistrer</button>
-
-{{ form_end(form) }}
