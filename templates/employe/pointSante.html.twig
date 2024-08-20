@@ -1,0 +1,47 @@
+{% extends 'employe/index.html.twig' %}
+
+{% block title %}New Monitoring{% endblock %}
+
+{% block content %}
+
+<h1>Point Santé des Animaux</h1>
+
+    <div class="animal-cards">
+        {% for item in data %}
+            <div class="animal-card">
+                <h2>{{ item.animal.name }}</h2>
+
+                <div class="card-container">
+                    <!-- Carte Vétérinaire -->
+                    <div class="veterinary-card">
+                        <h3>Suivi Vétérinaire</h3>
+                        {% if item.recommandationVeterinary %}
+                            <p>Date: {{ item.recommandationVeterinary.date ? item.recommandationVeterinary.date|date('Y-m-d H:i:s') : '' }}</p>
+                            <p>État: {{ item.recommandationVeterinary.state }}</p>
+                            <p>Traitement: {{ item.recommandationVeterinary.medicine }}</p>
+                            <p>Enrichissement: {{ item.recommandationVeterinary.report }}</p>
+                            <!-- Ajoutez d'autres détails ici si nécessaire -->
+                        {% else %}
+                            <p>Aucun suivi vétérinaire disponible.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Carte Employé -->
+                    <div class="employee-card">
+                        <h3>Suivi Employé</h3>
+                        {% if item.monitoring %}
+                            <p>Date: {{ item.monitoring.date ? item.monitoring.date|date('Y-m-d H:i:s') : '' }}</p>
+                            <p>État: {{ item.monitoring.state }}</p>
+                            <p>Traitement: {{ item.monitoring.medicine }}</p>
+                            <p>Commentaire: {{ item.monitoring.comment }}</p>
+                            <!-- Ajoutez d'autres détails ici si nécessaire -->
+                        {% else %}
+                            <p>Aucun suivi employé disponible.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

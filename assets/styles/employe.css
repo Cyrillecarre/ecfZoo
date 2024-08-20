@@ -300,3 +300,32 @@
     margin: 2rem;
     background-color: #f5f5f5;
 }
+
+/* point santé */
+
+.animal-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.animal-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.veterinary-card, .employee-card {
+    width: 48%;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+}
