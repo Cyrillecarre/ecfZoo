@@ -4,10 +4,13 @@
 
 {% block javascripts %}
     <script src="{{ asset('scripts/admin.js') }}" defer></script>
+    <script src="{{ asset('scripts/veterinary.js') }}" defer></script>
 {% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/employe.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -32,8 +35,9 @@
             <ul class="sidebar-nav">
                 <li class="sidebarLi">Dashboard</a></li>
                 <li class="sidebarLi">Point Santé</a></li>
-                <li class="sidebarLi">Habitats</a></li>
-                <li class="sidebarLi">Animaux</a></li>
+                <li class="sidebarLi"><a href="{{ path('app_employeTropical_index') }}">Tropical</a></li>
+                <li class="sidebarLi"><a href="{{ path('app_employeSavane_index') }}">Savane</a></li>
+                <li class="sidebarLi"><a href="{{ path('app_employeDesert_index') }}">Desert</a></li>
             </ul>
         </aside>
 

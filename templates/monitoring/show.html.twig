@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Monitoring{% endblock %}
+
+{% block body %}
+    <h1>Monitoring</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ monitoring.id }}</td>
+            </tr>
+            <tr>
+                <th>Medicine</th>
+                <td>{{ monitoring.medicine }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ monitoring.date ? monitoring.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ monitoring.state }}</td>
+            </tr>
+            <tr>
+                <th>Report</th>
+                <td>{{ monitoring.report }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ monitoring.comment }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_monitoring_index') }}">back to list</a>
+
+    <a href="{{ path('app_monitoring_edit', {'id': monitoring.id}) }}">edit</a>
+
+    {{ include('monitoring/_delete_form.html.twig') }}
+{% endblock %}
