@@ -40,6 +40,9 @@ class RecommandationVeterinary
     #[ORM\ManyToMany(targetEntity: Food::class, inversedBy: 'recommandationVeterinaries', cascade: ['persist'])]
     private Collection $foods;
 
+    #[ORM\OneToOne(mappedBy: 'recommandationVeterinary', cascade: ['persist', 'remove'])]
+    private ?Monitoring $monitoring = null;
+
     public function __construct()
     {
         $this->foods = new ArrayCollection();
@@ -142,6 +145,28 @@ class RecommandationVeterinary
     public function removeFood(Food $food): self
     {
         $this->foods->removeElement($food);
+
+        return $this;
+    }
+
+    public function getMonitoring(): ?Monitoring
+    {
+        return $this->monitoring;
+    }
+
+    public function setMonitoring(?Monitoring $monitoring): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($monitoring === null && $this->monitoring !== null) {
+            $this->monitoring->setRecommandationVeterinary(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($monitoring !== null && $monitoring->getRecommandationVeterinary() !== $this) {
+            $monitoring->setRecommandationVeterinary($this);
+        }
+
+        $this->monitoring = $monitoring;
 
         return $this;
     }

@@ -26,9 +26,16 @@ class Food
     #[ORM\ManyToMany(targetEntity: RecommandationVeterinary::class, mappedBy: 'foods')]
     private Collection $recommandationVeterinaries;
 
+    /**
+     * @var Collection<int, Monitoring>
+     */
+    #[ORM\ManyToMany(targetEntity: Monitoring::class, mappedBy: 'food')]
+    private Collection $monitorings;
+
     public function __construct()
     {
         $this->recommandationVeterinaries = new ArrayCollection();
+        $this->monitorings = new ArrayCollection();
     }
 
     // Getters and setters...
@@ -84,6 +91,33 @@ class Food
     {
         if ($this->recommandationVeterinaries->removeElement($recommandationVeterinary)) {
             $recommandationVeterinary->removeFood($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Monitoring>
+     */
+    public function getMonitorings(): Collection
+    {
+        return $this->monitorings;
+    }
+
+    public function addMonitoring(Monitoring $monitoring): static
+    {
+        if (!$this->monitorings->contains($monitoring)) {
+            $this->monitorings->add($monitoring);
+            $monitoring->addFood($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMonitoring(Monitoring $monitoring): static
+    {
+        if ($this->monitorings->removeElement($monitoring)) {
+            $monitoring->removeFood($this);
         }
 
         return $this;

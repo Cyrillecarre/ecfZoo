@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Repository\RecommandationVeterinaryRepository;
+use App\Repository\AnimalRepository;
+use App\Entity\Monitoring;
+use App\Form\MonitoringType;
+
 
 #[Route('/employe')]
 class EmployeController extends AbstractController
@@ -22,6 +27,81 @@ class EmployeController extends AbstractController
             'employes' => $employeRepository->findAll(),
         ]);
     }
+
+    #[Route('/tropical', name: 'app_employeTropical_index', methods: ['GET'])]
+    public function indexTropical(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationsTropical = array_filter(
+            $recommandationVeterinaryRepository->findAll(),
+            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Tropical'
+        );
+
+    return $this->render('employe/tropical.html.twig', [
+        'recommandation_veterinaries' => $recommandationsTropical,
+    ]);
+    }
+
+    #[Route('/savane', name: 'app_employeSavane_index', methods: ['GET'])]
+    public function indexSavane(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationsSavane = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->join('r.Animal', 'a')
+        ->join('a.area', 'ar')
+        ->where('ar.name = :zone')
+        ->setParameter('zone', 'Savane')
+        ->getQuery()
+        ->getResult();
+
+    return $this->render('employe/savane.html.twig', [
+        'recommandation_veterinaries' => $recommandationsSavane,
+    ]);
+    }
+
+    #[Route('/desert', name: 'app_employeDesert_index', methods: ['GET'])]
+    public function indexDesert(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandationsDesert = array_filter(
+            $recommandationVeterinaryRepository->findAll(),
+            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Desert'
+        );
+        return $this->render('employe/desert.html.twig', [
+            'recommandation_veterinaries' => $recommandationsDesert,
+        ]);
+    }
+
+    #[Route('/monitoring/new/{animalId}', name: 'app_employeMonitoring_new', methods: ['GET', 'POST'])]
+public function newMonitoring(Request $request, EntityManagerInterface $entityManager, AnimalRepository $animalRepository, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, $animalId): Response
+{
+    $monitoring = new Monitoring();
+    $animal = $animalRepository->find($animalId);
+
+    if (!$animal) {
+        throw $this->createNotFoundException('Animal not found');
+    }
+
+    $recommandationVeterinary = $recommandationVeterinaryRepository->findOneBy(['Animal' => $animal]);
+
+    $monitoring->setAnimal($animal);
+    $form = $this->createForm(MonitoringType::class, $monitoring);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($monitoring);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_employe_index');
+    }
+
+    return $this->render('employe/monitoringNew.html.twig', [
+        'monitoring' => $monitoring,
+        'form' => $form->createView(),
+        'recommandation_veterinary' => $recommandationVeterinary,
+    ]);
+}
+
+
+
 
     #[Route('/new', name: 'app_employe_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response

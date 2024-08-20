@@ -1,0 +1,111 @@
+{% extends 'employe/index.html.twig' %}
+
+{% block title %}New Monitoring{% endblock %}
+
+{% block content %}
+    <h1>Créer un nouveau monitoring</h1>
+
+    <div class="container">
+        <div class="gridNew">
+            <div class="form-box">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_label(form.animal) }}
+                    {{ form_widget(form.animal) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.medicine, 'Traitement') }}
+                    {{ form_widget(form.medicine) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.date) }}
+                    {{ form_widget(form.date) }}
+                </div>
+                <div id="foods-list">
+                    {{ form_label(form.foods) }}
+                    {{ form_errors(form.foods) }}
+                    <ul data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
+                        {% for foodForm in form.foods %}
+                            <li>
+                                {{ form_row(foodForm.name) }}
+                                {{ form_row(foodForm.quantity) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.state,'Etat') }}
+                    {{ form_widget(form.state) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.report,'Enrichissement') }}
+                    {{ form_widget(form.report) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.comment,'Commentaire') }}
+                    {{ form_widget(form.comment) }}
+                </div>
+                <div class="form-groupRecomV">
+                    {{ form_widget(form.recommandationVeterinary) }}
+                </div>
+                <button type="submit" class="btnActionNew">Enregistrer</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="gridContainerN">
+            {% if recommandation_veterinary %}
+            <div class="details-containerN">
+                <div class="containerImgN">
+                    <h2 class="titreC">Dernier suivi vétérinaire</h2>
+                    <div class="detail-itemN">
+                        <div class="label">Nom :</div>
+                        <div class="value">{{ recommandation_veterinary.animal.name }}</div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">Photo :</div>
+                        <div class="valueImg">
+                            {% for picture in recommandation_veterinary.animal.pictureAnimals %}
+                                <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ recommandation_veterinary.animal.name }}" width="100">
+                            {% else %}
+                                Pas de photo disponible.
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">Date :</div>
+                        <div class="value">{{ recommandation_veterinary.date ? recommandation_veterinary.date|date('Y-m-d H:i:s') : '' }}</div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">Nourriture :</div>
+                        <div class="value">
+                            {% for food in recommandation_veterinary.foods %}
+                                {{ food.name }} ({{ food.quantity }}g)<br>
+                            {% else %}
+                                Aucun aliment recommandé.
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">Traitement :</div>
+                        <div class="value">{{ recommandation_veterinary.medicine }}</div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">État :</div>
+                        <div class="value">{{ recommandation_veterinary.state }}</div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">Recommandation :</div>
+                        <div class="value">{{ recommandation_veterinary.recommandation }}</div>
+                    </div>
+                    <div class="detail-itemN">
+                        <div class="label">Enrichissement :</div>
+                        <div class="value">{{ recommandation_veterinary.report }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

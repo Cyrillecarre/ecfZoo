@@ -34,9 +34,16 @@ class Animal
     #[ORM\OneToOne(mappedBy: 'Animal', cascade: ['persist', 'remove'])]
     private ?RecommandationVeterinary $recommandationVeterinary = null;
 
+    /**
+     * @var Collection<int, Monitoring>
+     */
+    #[ORM\OneToMany(targetEntity: Monitoring::class, mappedBy: 'animal')]
+    private Collection $monitorings;
+
     public function __construct()
     {
         $this->pictureAnimals = new ArrayCollection();
+        $this->monitorings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +130,36 @@ class Animal
         }
 
         $this->recommandationVeterinary = $recommandationVeterinary;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Monitoring>
+     */
+    public function getMonitorings(): Collection
+    {
+        return $this->monitorings;
+    }
+
+    public function addMonitoring(Monitoring $monitoring): static
+    {
+        if (!$this->monitorings->contains($monitoring)) {
+            $this->monitorings->add($monitoring);
+            $monitoring->setAnimal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMonitoring(Monitoring $monitoring): static
+    {
+        if ($this->monitorings->removeElement($monitoring)) {
+            // set the owning side to null (unless already changed)
+            if ($monitoring->getAnimal() === $this) {
+                $monitoring->setAnimal(null);
+            }
+        }
 
         return $this;
     }
