@@ -1,0 +1,48 @@
+{% extends 'employe/index.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/employe.css') }}">
+{% endblock %}
+
+{% block title %}Détails de {{ animal.name }}{% endblock %}
+
+{% block content %}
+    <h1>Détails de {{ animal.name }}</h1>
+
+    <div class="animal-details">
+        {% if animal.pictureAnimals|length > 0 %}
+            <img src="{{ asset('uploads/' ~ animal.pictureAnimals|first.fileName) }}" alt="{{ animal.name }}" class="animal-photo">
+        {% else %}
+            <p>Pas de photo disponible.</p>
+        {% endif %}
+
+        <h2>Rapports Vétérinaires</h2>
+        {% for recommandation in recommandationsVeterinary %}
+            <div class="recommandation-card">
+                <p>Date: {{ recommandation.date ? recommandation.date|date('Y-m-d H:i:s') : '' }}</p>
+                <p>État: {{ recommandation.state }}</p>
+                <p>Traitement: {{ recommandation.medicine }}</p>
+                <p>Recommandation: {{ recommandation.recommandation }}</p>
+                <p>Enrichissement: {{ recommandation.report }}</p>
+            </div>
+        {% else %}
+            <p>Aucun rapport vétérinaire disponible.</p>
+        {% endfor %}
+
+        <h2>Suivis Employés</h2>
+        {% for monitoring in monitorings %}
+            <div class="monitoring-card">
+                <p>Date: {{ monitoring.date ? monitoring.date|date('Y-m-d H:i:s') : '' }}</p>
+                <p>État: {{ monitoring.state }}</p>
+                <p>Traitement: {{ monitoring.medicine }}</p>
+                <p>Commentaire: {{ monitoring.comment }}</p>
+            </div>
+        {% else %}
+            <p>Aucun suivi employé disponible.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{{ path('app_point_sante') }}" class="btnAction">Retour à la liste</a>
+{% endblock %}

@@ -302,11 +302,23 @@
 }
 
 /* point santé */
+.titre {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
 
 .animal-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+.animal-cards a {
+    text-decoration: none;
+    color: black;
 }
 
 .animal-card {
@@ -316,6 +328,22 @@
     width: 100%;
     max-width: 800px;
     margin-bottom: 20px;
+    margin: 0 auto;
+}
+
+.animal-header {
+    display: flex;
+    align-items: center;
+}
+
+.animal-header h2 {
+    margin-right: 10px;
+}
+
+.animal-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
 }
 
 .card-container {
@@ -328,4 +356,28 @@
     background-color: #f5f5f5;
     padding: 10px;
     border-radius: 8px;
+}
+
+.state {
+    padding: 5px;
+    border-radius: 4px;
+    color: black;
+    font-weight: bold;
+}
+
+.state.santé {
+    background-color: green;
+}
+
+.state.malade {
+    background-color: red;
+}
+
+.state.convalescence {
+    background-color: yellow;
+    color: black;
+}
+
+.state.bléssé {
+    background-color: orange;
 }

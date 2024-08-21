@@ -12,6 +12,7 @@ use App\Entity\Animal;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Form\FoodType;
 use App\Entity\Food;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class MonitoringType extends AbstractType
@@ -35,7 +36,14 @@ class MonitoringType extends AbstractType
             ->add('date', null, [
                 'widget' => 'single_text',
             ])
-            ->add('state')
+            ->add('state', ChoiceType::class, [
+                'choices' => [
+                    'Bonne santé' => 'Bonne santé',
+                    'Malade' => 'Malade',
+                    'Blessé' => 'Bléssé',
+                    'En convalescence' => 'En convalescence',
+                ],
+            ])
             ->add('report')
             ->add('comment')
             ->add('recommandationVeterinary', EntityType::class, [
