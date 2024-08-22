@@ -32,11 +32,22 @@ class EmployeController extends AbstractController
     #[Route('/tropical', name: 'app_employeTropical_index', methods: ['GET'])]
     public function indexTropical(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsTropical = array_filter(
-            $recommandationVeterinaryRepository->findAll(),
-            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Tropical'
-        );
+        $subQuery = $recommandationVeterinaryRepository->createQueryBuilder('r2')
+        ->select('MAX(r2.id)')
+        ->innerJoin('r2.Animal', 'a2')
+        ->where('a2.area = ar')
+        ->groupBy('a2.id')
+        ->getDQL();
 
+    $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->innerJoin('r.Animal', 'a')
+        ->innerJoin('a.area', 'ar')
+        ->where('ar.name = :zone')
+        ->andWhere('r.id IN (' . $subQuery . ')')
+        ->setParameter('zone', 'Tropical')
+        ->getQuery();
+
+    $recommandationsTropical = $query->getResult();
     return $this->render('employe/tropical.html.twig', [
         'recommandation_veterinaries' => $recommandationsTropical,
     ]);
@@ -45,14 +56,21 @@ class EmployeController extends AbstractController
     #[Route('/savane', name: 'app_employeSavane_index', methods: ['GET'])]
     public function indexSavane(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsSavane = $recommandationVeterinaryRepository->createQueryBuilder('r')
-        ->join('r.Animal', 'a')
-        ->join('a.area', 'ar')
-        ->where('ar.name = :zone')
-        ->setParameter('zone', 'Savane')
-        ->getQuery()
-        ->getResult();
+        $subQuery = $recommandationVeterinaryRepository->createQueryBuilder('r2')
+        ->select('MAX(r2.id)')
+        ->innerJoin('r2.Animal', 'a2')
+        ->innerJoin('a2.area', 'ar2')
+        ->where('ar2.name = :zone')
+        ->groupBy('a2.id')
+        ->getDQL();
 
+        $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->innerJoin('r.Animal', 'a')
+        ->where('r.id IN (' . $subQuery . ')')
+        ->setParameter('zone', 'Savane')
+        ->getQuery();
+
+        $recommandationsSavane = $query->getResult();
     return $this->render('employe/savane.html.twig', [
         'recommandation_veterinaries' => $recommandationsSavane,
     ]);
@@ -61,10 +79,22 @@ class EmployeController extends AbstractController
     #[Route('/desert', name: 'app_employeDesert_index', methods: ['GET'])]
     public function indexDesert(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsDesert = array_filter(
-            $recommandationVeterinaryRepository->findAll(),
-            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Desert'
-        );
+        $subQuery = $recommandationVeterinaryRepository->createQueryBuilder('r2')
+        ->select('MAX(r2.id)')
+        ->innerJoin('r2.Animal', 'a2')
+        ->innerJoin('a2.area', 'ar2')
+        ->where('ar2.name = :zone')
+        ->groupBy('a2.id')
+        ->getDQL();
+
+
+        $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->innerJoin('r.Animal', 'a')
+        ->where('r.id IN (' . $subQuery . ')')
+        ->setParameter('zone', 'Desert')
+        ->getQuery();
+
+        $recommandationsDesert = $query->getResult();
         return $this->render('employe/desert.html.twig', [
             'recommandation_veterinaries' => $recommandationsDesert,
         ]);
@@ -84,8 +114,7 @@ class EmployeController extends AbstractController
         if (!$recommandationVeterinary) {
             throw $this->createNotFoundException('Recommandation vétérinaire non trouvée pour cet animal');
         }
-    
-        // Vérifiez si cette recommandation vétérinaire est déjà liée à un monitoring
+
         $existingMonitoring = $monitoringRepository->findOneBy(['recommandationVeterinary' => $recommandationVeterinary]);
     
         if ($existingMonitoring) {
@@ -125,10 +154,10 @@ class EmployeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_monitoring_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_point_sante', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('monitoring/edit.html.twig', [
+        return $this->render('employe/monitoringEdit.html.twig', [
             'monitoring' => $monitoring,
             'form' => $form,
         ]);
