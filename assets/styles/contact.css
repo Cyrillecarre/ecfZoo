@@ -1,7 +1,6 @@
 .mainContact {
     width: 60%;
     margin: 0 auto;
-    margin-top: -30rem;
 }
 
 .titreContact {
@@ -21,7 +20,6 @@
     background: rgba(255, 255, 255, 0.4);
     border-radius: 8px;
     box-shadow: 6px 6px 12px #3b3535, -6px -6px 12px #3b3535;
-    margin-top: -30rem;
     margin-bottom: 10rem;
 }
 
