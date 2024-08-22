@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("Le fichier review.js est chargé et exécuté.");
     const stars = document.querySelectorAll('.starTitre .star');
     const starInput = document.querySelector('[data-js-target="starRating"]');
 
     stars.forEach((star, index) => {
         star.addEventListener('mouseenter', () => {
+            console.log('Étoile survolée:', index + 1);
             for (let i = 0; i <= index; i++) {
                 stars[i].style.color = getColor(index);
                 stars[i].style.transform = 'scale(1.2)';
@@ -20,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         star.addEventListener('click', () => {
+            console.log('Étoile cliquée:', index + 1);
             const starValue = index + 1;
             starInput.value = starValue;
 
@@ -54,4 +57,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 return 'green'; 
         }
     }
+    console.log("Initialisation terminée.");
+
 });

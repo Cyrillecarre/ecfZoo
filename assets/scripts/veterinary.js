@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     addButton.addEventListener('click', function () {
         const prototype = list.dataset.prototype;
-        const index = list.children.length - 1; // -1 to exclude the add button itself
+        const index = list.children.length - 1;
         const newForm = prototype.replace(/__name__/g, index);
 
         const newLi = document.createElement('li');
