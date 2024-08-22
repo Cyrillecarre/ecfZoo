@@ -14,7 +14,7 @@
 
 <div class="animal-cards">
     {% for item in data %}
-    <a href="{{ path('app_animal_details', {'id': item.animal.id}) }}" class="animal-card">
+    <a href="{{ path('app_animal_recommandations', {'id': item.animal.id}) }}" class="animal-card">
         <div class="animal-card">
             <div class="animal-header">
                 <h2>{{ item.animal.name }}</h2>

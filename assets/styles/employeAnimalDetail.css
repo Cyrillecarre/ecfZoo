@@ -102,3 +102,45 @@
     text-decoration: none;
     color: black;
 }
+
+.btnActionN:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px #f5f4f4d4, -6px -6px 12px #f5f4f4d4;
+    text-decoration: none;
+}
+
+.btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.btnAction2 {
+    display: flex;
+    width: 20%;
+    border-radius: 2rem;
+    height: 3rem;
+    font-size: 15px;
+    font-family: inherit;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    overflow: hidden;
+    z-index: 1;
+    border: 0.5px solid rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.777);
+    text-decoration: none;
+    color: black;
+}
+
+.btnAction2:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px #f5f4f4d4, -6px -6px 12px #f5f4f4d4;
+    text-decoration: none;
+}
