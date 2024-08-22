@@ -435,16 +435,16 @@ label[for*="token"] {
     color: white;
     padding: 12px 15px;
     text-align: left;
-    font-weight: normal; /* Enlever le gras par défaut pour un style plus moderne */
+    font-weight: normal;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2; /* Alternance de couleurs pour les lignes */
+    background-color: #f2f2f2;
 }
 
 td, th {
     padding: 12px 15px;
-    border-bottom: 1px solid #ddd; /* Ligne de séparation subtile */
+    border-bottom: 1px solid #ddd;
 }
 
 .star {

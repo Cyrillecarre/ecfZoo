@@ -231,12 +231,12 @@
 
 .swiper-slide-next, 
 .swiper-slide-prev {
-    transform: scale(0.9); /* Réduit légèrement la taille des images voisines de l'image centrale */
+    transform: scale(0.9);
 }
 
 .swiper-slide-next + .swiper-slide,
 .swiper-slide-prev + .swiper-slide {
-    transform: scale(0.7); /* Réduit encore plus la taille des images qui sont plus éloignées de l'image centrale */
+    transform: scale(0.7);
 }
 
 

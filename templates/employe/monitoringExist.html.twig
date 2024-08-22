@@ -1,14 +1,20 @@
 {% extends 'employe/index.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/employeAnimalDetail.css') }}">
+{% endblock %}
+
 {% block title %}Monitoring Exists{% endblock %}
 
 {% block content %}
-<h1>Un enregistrement de monitoring existe déjà pour cet animal</h1>
+<h1 class="titre">Un enregistrement de monitoring existe déjà pour cet animal</h1>
 
 <p>Un enregistrement de monitoring a déjà été créé pour cet animal le {{ monitoring.date|date('Y-m-d') }}.</p>
 
-<div>
-    <a href="{{ path('app_employeMonitoring_edit', {'id': monitoring.id}) }}" class="btn btn-primary">Modifier l'enregistrement</a>
-    <a href="{{ path('app_employe_index') }}" class="btn btn-secondary">Revenir à la page précédente</a>
+<div class="btn">
+    <a href="{{ path('app_employeMonitoring_edit', {'id': monitoring.id}) }}" class="btnAction2">Modifier l'enregistrement</a>
+    <a href="{{ path('app_point_sante') }}" class="btnAction2">Revenir à la page précédente</a>
 </div>
 {% endblock %}

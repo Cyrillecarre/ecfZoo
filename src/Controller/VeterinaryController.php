@@ -19,11 +19,6 @@ use App\Repository\AnimalRepository;
 use App\Repository\MonitoringRepository;
 
 
-
-
-
-
-
 #[Route('/veterinary')]
 class VeterinaryController extends AbstractController
 {
@@ -296,18 +291,18 @@ class VeterinaryController extends AbstractController
         ]);
     }
     #[Route('/animal/{id}/recommandations', name: 'app_animal_recommandations', methods: ['GET'])]
-    public function showRecommandationsForAnimal(int $id, RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    public function showRecommandationsForAnimal(int $id, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, AnimalRepository $animalRepository, MonitoringRepository $monitoringRepository): Response
     {
-        $recommandations = $recommandationVeterinaryRepository->findBy(
-            ['Animal' => $id],
-            ['date' => 'DESC']
-        );
+        $animal = $animalRepository->findAll();
+        $recommandations = $recommandationVeterinaryRepository->findBy(['Animal' => $id],['date' => 'DESC']);
+        $monitorings = $monitoringRepository->findBy(['animal' => $animal], ['date' => 'DESC']);
 
         $zone = $recommandations[0]->getAnimal()->getArea()->getName();
 
         return $this->render('veterinary/animal_recommandations.html.twig', [
             'recommandations' => $recommandations,
-            'zone' => $zone,
+            'monitorings' => $monitorings,
+            'animal' => $animal,
         ]);
     }
 
