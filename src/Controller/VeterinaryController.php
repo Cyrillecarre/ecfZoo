@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Repository\AnimalRepository;
+use App\Repository\MonitoringRepository;
 
 
 
@@ -68,13 +70,13 @@ class VeterinaryController extends AbstractController
         ->groupBy('a2.id')
         ->getDQL();
 
-    $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
         ->innerJoin('r.Animal', 'a')
         ->where('r.id IN (' . $subQuery . ')')
         ->setParameter('zone', 'Savane')
         ->getQuery();
 
-    $recommandationsSavane = $query->getResult();
+        $recommandationsSavane = $query->getResult();
 
     return $this->render('veterinary/savane.html.twig', [
         'recommandation_veterinaries' => $recommandationsSavane,
@@ -308,4 +310,27 @@ class VeterinaryController extends AbstractController
             'zone' => $zone,
         ]);
     }
+
+    #[Route('/veterinaire/pointsante', name: 'app_veterinary_point_sante', methods: ['GET'])]
+    public function veterinaryPointSante(AnimalRepository $animalRepository, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, MonitoringRepository $monitoringRepository): Response {
+        $animals = $animalRepository->findAll();
+
+        $data = [];
+
+        foreach ($animals as $animal) {
+            $recommandationVeterinary = $recommandationVeterinaryRepository->findOneBy(['Animal' => $animal], ['date' => 'DESC']);
+            $monitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+
+            $data[] = [
+                'animal' => $animal,
+                'recommandationVeterinary' => $recommandationVeterinary,
+                'monitoring' => $monitoring
+            ];
+        }
+
+        return $this->render('veterinary/pointSante.html.twig', [
+            'data' => $data,
+        ]);
+    }
+
 }

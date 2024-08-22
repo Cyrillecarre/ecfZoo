@@ -1,11 +1,63 @@
 {% extends 'employe/index.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/veterinary.css') }}">
+{% endblock %}
+
 {% block title %}Edit Monitoring{% endblock %}
 
-{% block body %}
-    <h1>Edit Monitoring</h1>
+{% block content %}
+    <h1>Modifier l'enregistrement Monitoring</h1>
 
-    {{ include('monitoring/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <div class="gridNew">
+            <div class="form-box">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_label(form.animal) }}
+                    {{ form_widget(form.animal) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.medicine, 'Traitement') }}
+                    {{ form_widget(form.medicine) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.date) }}
+                    {{ form_widget(form.date) }}
+                </div>
+                <div id="foods-list">
+                    {{ form_label(form.foods) }}
+                    {{ form_errors(form.foods) }}
+                    <ul data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
+                        {% for foodForm in form.foods %}
+                            <li>
+                                {{ form_row(foodForm.name) }}
+                                {{ form_row(foodForm.quantity) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.state,'Etat') }}
+                    {{ form_widget(form.state) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.report,'Enrichissement') }}
+                    {{ form_widget(form.report) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.comment,'Commentaire') }}
+                    {{ form_widget(form.comment) }}
+                </div>
+                <div class="form-groupRecomV">
+                    {{ form_widget(form.recommandationVeterinary) }}
+                </div>
+                <button type="submit" class="btnActionNew">Enregistrer</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
 
     <a href="{{ path('app_point_sante') }}">Retour au point santé</a>
 

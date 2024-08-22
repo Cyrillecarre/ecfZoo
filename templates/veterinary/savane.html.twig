@@ -64,12 +64,6 @@
                     <div class="label">Enrichissement :</div>
                     <div class="value">{{ recommandation_veterinary.report }}</div>
                 </div>
-                <div class="detail-item">
-                    <div class="label">Actions :</div>
-                    <div class="value">
-                        <a href="{{ path('app_veterinaryRecommandation_veterinary_edit', {'id': recommandation_veterinary.id}) }}">Modifier</a>
-                    </div>
-                </div>
             </div>
         {% endfor %}
     </div>
