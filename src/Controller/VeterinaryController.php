@@ -36,11 +36,22 @@ class VeterinaryController extends AbstractController
     #[Route('/tropical', name: 'app_veterinaryTropical_index', methods: ['GET'])]
     public function indexTropical(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsTropical = array_filter(
-            $recommandationVeterinaryRepository->findAll(),
-            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Tropical'
-        );
+        $subQuery = $recommandationVeterinaryRepository->createQueryBuilder('r2')
+        ->select('MAX(r2.id)')
+        ->innerJoin('r2.Animal', 'a2')
+        ->where('a2.area = ar')
+        ->groupBy('a2.id')
+        ->getDQL();
 
+    $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->innerJoin('r.Animal', 'a')
+        ->innerJoin('a.area', 'ar')
+        ->where('ar.name = :zone')
+        ->andWhere('r.id IN (' . $subQuery . ')')
+        ->setParameter('zone', 'Tropical')
+        ->getQuery();
+
+    $recommandationsTropical = $query->getResult();
     return $this->render('veterinary/tropical.html.twig', [
         'recommandation_veterinaries' => $recommandationsTropical,
     ]);
@@ -49,13 +60,21 @@ class VeterinaryController extends AbstractController
     #[Route('/savane', name: 'app_veterinarySavane_index', methods: ['GET'])]
     public function indexSavane(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsSavane = $recommandationVeterinaryRepository->createQueryBuilder('r')
-        ->join('r.Animal', 'a')
-        ->join('a.area', 'ar')
-        ->where('ar.name = :zone')
+        $subQuery = $recommandationVeterinaryRepository->createQueryBuilder('r2')
+        ->select('MAX(r2.id)')
+        ->innerJoin('r2.Animal', 'a2')
+        ->innerJoin('a2.area', 'ar2')
+        ->where('ar2.name = :zone')
+        ->groupBy('a2.id')
+        ->getDQL();
+
+    $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->innerJoin('r.Animal', 'a')
+        ->where('r.id IN (' . $subQuery . ')')
         ->setParameter('zone', 'Savane')
-        ->getQuery()
-        ->getResult();
+        ->getQuery();
+
+    $recommandationsSavane = $query->getResult();
 
     return $this->render('veterinary/savane.html.twig', [
         'recommandation_veterinaries' => $recommandationsSavane,
@@ -132,10 +151,22 @@ class VeterinaryController extends AbstractController
     #[Route('/desert', name: 'app_veterinaryDesert_index', methods: ['GET'])]
     public function indexDesert(RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
     {
-        $recommandationsDesert = array_filter(
-            $recommandationVeterinaryRepository->findAll(),
-            fn($recommandation) => $recommandation->getAnimal()->getArea()->getName() === 'Desert'
-        );
+        $subQuery = $recommandationVeterinaryRepository->createQueryBuilder('r2')
+        ->select('MAX(r2.id)')
+        ->innerJoin('r2.Animal', 'a2')
+        ->innerJoin('a2.area', 'ar2')
+        ->where('ar2.name = :zone')
+        ->groupBy('a2.id')
+        ->getDQL();
+
+
+        $query = $recommandationVeterinaryRepository->createQueryBuilder('r')
+        ->innerJoin('r.Animal', 'a')
+        ->where('r.id IN (' . $subQuery . ')')
+        ->setParameter('zone', 'Desert')
+        ->getQuery();
+
+        $recommandationsDesert = $query->getResult();
         return $this->render('veterinary/desert.html.twig', [
             'recommandation_veterinaries' => $recommandationsDesert,
         ]);
@@ -260,6 +291,21 @@ class VeterinaryController extends AbstractController
         return $this->render('veterinary/recommandation.html.twig', [
             'recommandation_veterinary' => $recommandationVeterinary,
             'form' => $form,
+        ]);
+    }
+    #[Route('/animal/{id}/recommandations', name: 'app_animal_recommandations', methods: ['GET'])]
+    public function showRecommandationsForAnimal(int $id, RecommandationVeterinaryRepository $recommandationVeterinaryRepository): Response
+    {
+        $recommandations = $recommandationVeterinaryRepository->findBy(
+            ['Animal' => $id],
+            ['date' => 'DESC']
+        );
+
+        $zone = $recommandations[0]->getAnimal()->getArea()->getName();
+
+        return $this->render('veterinary/animal_recommandations.html.twig', [
+            'recommandations' => $recommandations,
+            'zone' => $zone,
         ]);
     }
 }

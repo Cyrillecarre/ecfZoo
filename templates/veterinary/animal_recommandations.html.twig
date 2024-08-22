@@ -1,0 +1,61 @@
+{% extends 'veterinary/index.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/veterinary.css') }}">
+{% endblock %}
+
+{% block title %}Recommandations pour {{ recommandations[0].animal.name }}{% endblock %}
+
+{% block content %}
+<h1>Tout les comptes rendu vétérinaires pour {{ recommandations[0].animal.name }}</h1>
+
+<div class="details-container">
+    {% for recommandation in recommandations %}
+        <div class="containerImg">
+            <div class="detail-item">
+                <div class="label">Photo :</div>
+                <div class="valueImg">
+                    {% for picture in recommandation.animal.pictureAnimals %}
+                        <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ recommandation.animal.name }}" width="100">
+                    {% else %}
+                        Pas de photo disponible.
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Date :</div>
+                <div class="value">{{ recommandation.date ? recommandation.date|date('Y-m-d H:i:s') : '' }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Nourriture :</div>
+                <div class="value">
+                    {% for food in recommandation.foods %}
+                        {{ food.name }} ({{ food.quantity }}g)<br>
+                    {% else %}
+                        Aucun aliment recommandé.
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Traitement :</div>
+                <div class="value">{{ recommandation.medicine }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">État :</div>
+                <div class="value">{{ recommandation.state }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Recommandation :</div>
+                <div class="value">{{ recommandation.recommandation }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Enrichissement :</div>
+                <div class="value">{{ recommandation.report }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<a class="btnAction" href="{{ path('app_veterinary' ~ zone ~ '_index') }}">Retour à la zone {{ zone }}</a>
+{% endblock %}
