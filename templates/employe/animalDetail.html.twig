@@ -3,46 +3,206 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
-    <link rel="stylesheet" href="{{ asset('styles/employe.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/employeAnimalDetail.css') }}">
 {% endblock %}
 
 {% block title %}Détails de {{ animal.name }}{% endblock %}
 
 {% block content %}
-    <h1>Détails de {{ animal.name }}</h1>
+    <h1 class="titre1">Détails de {{ animal.name }}</h1>
+    <div class="gridContainer">
+        <div class="details-containerD">
+                <div class="left-side">
+                    <h2 class="titre">Dernier Suivi Vétérinaire</h2>
+                    {% if recommandationsVeterinary|length > 0 %}
+                        {% set lastRecommandation = recommandationsVeterinary|first %}
+                        <div class="containerImg">
+                            <div class="detail-item">
+                                <div class="label">Photo :</div>
+                                <div class="valueImg">
+                                    {% if animal.pictureAnimals|length > 0 %}
+                                        <img src="{{ asset('uploads/' ~ animal.pictureAnimals|first.fileName) }}" alt="{{ animal.name }}" class="animal-photo">
+                                    {% else %}
+                                        <p>Pas de photo disponible.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Date :</div>
+                                <div class="value">{{ lastRecommandation.date ? lastRecommandation.date|date('Y-m-d H:i:s') : '' }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Nourriture :</div>
+                                <div class="value">
+                                    {% for food in lastRecommandation.foods %}
+                                        {{ food.name }} ({{ food.quantity }}g)<br>
+                                    {% else %}
+                                        Aucun aliment recommandé.
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Traitement :</div>
+                                <div class="value">{{ lastRecommandation.medicine }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">État :</div>
+                                <div class="value">{{ lastRecommandation.state }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Recommandation :</div>
+                                <div class="value">{{ lastRecommandation.recommandation }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Enrichissement :</div>
+                                <div class="value">{{ lastRecommandation.report }}</div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Aucun rapport vétérinaire disponible.</p>
+                    {% endif %}
+                </div>
+                <div class="right-side">
+                    <h2 class="titre">Dernier Suivi Employé</h2>
+                    {% if monitorings|length > 0 %}
+                        {% set lastMonitoring = monitorings|first %}
+                        <div class="containerImg">
+                            <div class="detail-item">
+                                <div class="label">Photo :</div>
+                                <div class="valueImg">
+                                    {% if animal.pictureAnimals|length > 0 %}
+                                        <img src="{{ asset('uploads/' ~ animal.pictureAnimals|first.fileName) }}" alt="{{ animal.name }}" class="animal-photo">
+                                    {% else %}
+                                        <p>Pas de photo disponible.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Date :</div>
+                                <div class="value">{{ lastMonitoring.date ? lastMonitoring.date|date('Y-m-d H:i:s') : '' }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Nourriture :</div>
+                                <div class="value">
+                                    {% for food in lastMonitoring.foods %}
+                                        {{ food.name }} ({{ food.quantity }}g)<br>
+                                    {% else %}
+                                        Aucun aliment recommandé.
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Traitement :</div>
+                                <div class="value">{{ lastMonitoring.medicine }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">État :</div>
+                                <div class="value">{{ lastMonitoring.state }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Recommandation :</div>
+                                <div class="value">{{ lastMonitoring.comment }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="label">Enrichissement :</div>
+                                <div class="value">{{ lastMonitoring.report }}</div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Aucun suivi employé disponible.</p>
+                    {% endif %}
+                </div>
+        </div>
+        <a href="{{ path('app_point_sante') }}" class="btnActionN">Retour à la liste</a>
+    </div>
 
-    <div class="animal-details">
-        {% if animal.pictureAnimals|length > 0 %}
-            <img src="{{ asset('uploads/' ~ animal.pictureAnimals|first.fileName) }}" alt="{{ animal.name }}" class="animal-photo">
-        {% else %}
-            <p>Pas de photo disponible.</p>
-        {% endif %}
-
-        <h2>Rapports Vétérinaires</h2>
-        {% for recommandation in recommandationsVeterinary %}
-            <div class="recommandation-card">
-                <p>Date: {{ recommandation.date ? recommandation.date|date('Y-m-d H:i:s') : '' }}</p>
-                <p>État: {{ recommandation.state }}</p>
-                <p>Traitement: {{ recommandation.medicine }}</p>
-                <p>Recommandation: {{ recommandation.recommandation }}</p>
-                <p>Enrichissement: {{ recommandation.report }}</p>
+    <h2 class="titre">Autres Rapports Vétérinaires</h2>
+    <div class="details-containerD">
+        {% for recommandation in recommandationsVeterinary|slice(1) %}
+            <div class="containerImg">
+                <div class="detail-item">
+                    <div class="label">Photo :</div>
+                    <div class="valueImg">
+                        {% if animal.pictureAnimals|length > 0 %}
+                            <img src="{{ asset('uploads/' ~ animal.pictureAnimals|first.fileName) }}" alt="{{ animal.name }}" class="animal-photo">
+                        {% else %}
+                            <p>Pas de photo disponible.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Date :</div>
+                    <div class="value">{{ recommandation.date ? recommandation.date|date('Y-m-d H:i:s') : '' }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Nourriture :</div>
+                    <div class="value">
+                        {% for food in recommandation.foods %}
+                            {{ food.name }} ({{ food.quantity }}g)<br>
+                        {% else %}
+                            Aucun aliment recommandé.
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Traitement :</div>
+                    <div class="value">{{ recommandation.medicine }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">État :</div>
+                    <div class="value">{{ recommandation.state }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Recommandation :</div>
+                    <div class="value">{{ recommandation.recommandation }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Enrichissement :</div>
+                    <div class="value">{{ recommandation.report }}</div>
+                </div>
             </div>
         {% else %}
-            <p>Aucun rapport vétérinaire disponible.</p>
-        {% endfor %}
-
-        <h2>Suivis Employés</h2>
-        {% for monitoring in monitorings %}
-            <div class="monitoring-card">
-                <p>Date: {{ monitoring.date ? monitoring.date|date('Y-m-d H:i:s') : '' }}</p>
-                <p>État: {{ monitoring.state }}</p>
-                <p>Traitement: {{ monitoring.medicine }}</p>
-                <p>Commentaire: {{ monitoring.comment }}</p>
-            </div>
-        {% else %}
-            <p>Aucun suivi employé disponible.</p>
+            <p>Aucun autre rapport vétérinaire disponible.</p>
         {% endfor %}
     </div>
 
-    <a href="{{ path('app_point_sante') }}" class="btnAction">Retour à la liste</a>
+    <h2 class="titre">Autres Suivis Employés</h2>
+    <div class="details-containerD">
+        {% for monitoring in monitorings|slice(1) %}
+            <div class="containerImg">
+                <div class="detail-item">
+                    <div class="label">Date :</div>
+                    <div class="value">{{ monitoring.date ? monitoring.date|date('Y-m-d H:i:s') : '' }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Nourriture :</div>
+                    <div class="value">
+                        {% for food in monitoring.foods %}
+                            {{ food.name }} ({{ food.quantity }}g)<br>
+                        {% else %}
+                            Aucun aliment recommandé.
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Traitement :</div>
+                    <div class="value">{{ monitoring.medicine }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">État :</div>
+                    <div class="value">{{ monitoring.state }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Recommandation :</div>
+                    <div class="value">{{ monitoring.comment }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Enrichissement :</div>
+                    <div class="value">{{ monitoring.report }}</div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun autre suivi employé disponible.</p>
+        {% endfor %}
+    </div>
 {% endblock %}

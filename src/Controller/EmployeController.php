@@ -172,8 +172,8 @@ class EmployeController extends AbstractController
             throw $this->createNotFoundException('Animal not found');
         }
 
-        $recommandationsVeterinary = $recommandationVeterinaryRepository->findBy(['Animal' => $animal]);
-        $monitorings = $monitoringRepository->findBy(['animal' => $animal]);
+        $recommandationsVeterinary = $recommandationVeterinaryRepository->findBy(['Animal' => $animal], ['date' => 'DESC']);
+        $monitorings = $monitoringRepository->findBy(['animal' => $animal], ['date' => 'DESC']);
 
         return $this->render('employe/animalDetail.html.twig', [
             'animal' => $animal,
