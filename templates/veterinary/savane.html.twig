@@ -18,7 +18,11 @@
             <div class="containerImg">
                 <div class="detail-item">
                     <div class="label">Nom :</div>
-                    <div class="value">{{ recommandation_veterinary.animal.name }}</div>
+                    <div class="value">
+                        <a href="{{ path('app_animal_recommandations', {'id': recommandation_veterinary.animal.id}) }}">
+                        {{ recommandation_veterinary.animal.name }}
+                        </a>
+                    </div>
                 </div>
                 <div class="detail-item">
                     <div class="label">Photo :</div>
