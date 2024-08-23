@@ -1,0 +1,60 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/adminDash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/veterinary.css') }}">
+{% endblock %}
+
+{% block title %}Point Santé{% endblock %}
+
+{% block content %}
+
+<h1 class="titre">Point Santé des Animaux</h1>
+
+<div class="animal-cards">
+    {% for item in data %}
+        <div class="animal-card">
+            <div class="animal-header">
+                <h2>{{ item.animal.name }}</h2>
+                {% if item.animal.pictureAnimals|length > 0 %}
+                    <img src="{{ asset('uploads/' ~ item.animal.pictureAnimals|first.fileName) }}" alt="{{ item.animal.name }}" class="animal-photo">
+                {% else %}
+                    <p>Pas de photo disponible.</p>
+                {% endif %}
+            </div>
+
+            <div class="card-container">
+                <!-- Carte Vétérinaire -->
+                <div class="veterinary-card">
+                    <h3>Suivi Vétérinaire</h3>
+                    {% if item.recommandationVeterinary %}
+                        <p>Date: {{ item.recommandationVeterinary.date ? item.recommandationVeterinary.date|date('Y-m-d H:i:s') : '' }}</p>
+                        <p class="state {{ item.recommandationVeterinary.state|lower }}">
+                        État: {{ item.recommandationVeterinary.state }}
+                        </p>
+                        <p>Traitement: {{ item.recommandationVeterinary.medicine }}</p>
+                    {% else %}
+                        <p>Aucun suivi vétérinaire disponible.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Carte Employé -->
+                <div class="employee-card">
+                    <h3>Suivi Employé</h3>
+                    {% if item.monitoring %}
+                        <p>Date: {{ item.monitoring.date ? item.monitoring.date|date('Y-m-d H:i:s') : '' }}</p>
+                        <p class="state {{ item.monitoring.state|lower }}">
+                        État: {{ item.monitoring.state }}
+                        </p>
+                        <p>Traitement: {{ item.monitoring.medicine }}</p>
+                    {% else %}
+                        <p>Aucun suivi employé disponible.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
