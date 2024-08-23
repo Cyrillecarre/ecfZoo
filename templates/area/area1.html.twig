@@ -12,8 +12,6 @@
     <script src="{{ asset('scripts/area.js') }}" defer></script>
 {% endblock %}
 
-
-
 {% block body %}
 {% include 'header.html.twig' %}
 <main class="mainArea">
@@ -33,7 +31,7 @@
                     <h3 class="animalName">{{ animal.name }}</h3>
                     <div class="animalImages">
                         {% for picture in animal.pictureAnimals %}
-                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" class="animalImage">
+                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" class="animalImage" onclick="showAnimalDetails({{ picture.id }})">>
                         {% endfor %}
                     </div>
                 </div>
@@ -44,6 +42,9 @@
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
+    </div>
+    <div id="animalDetails" class="animalDetailsContainer">
+
     </div>
     <a href="{{ path('app_home') }}" class="btnArea" id="backButton">Retour</a>
     <div class="backgroundArea1"></div>

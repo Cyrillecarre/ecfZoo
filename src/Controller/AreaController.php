@@ -14,6 +14,12 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Psr\Log\LoggerInterface;
 use App\Entity\PictureArea;
+use App\Repository\AnimalRepository;
+use App\Repository\MonitoringRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\PictureAnimalRepository;
+use App\Entity\PictureAnimal;
+
 
 #[Route('/area')]
 class AreaController extends AbstractController
@@ -160,4 +166,35 @@ class AreaController extends AbstractController
 
         return $this->redirectToRoute('app_area_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/animal-details/{id}', name: 'animal_details', methods: ['GET'])]
+    public function getAnimalDetails(int $id, PictureAnimalRepository $pictureAnimalRepository, MonitoringRepository $monitoringRepository): JsonResponse
+    {
+    $pictureAnimal = $pictureAnimalRepository->find($id);
+
+    if (!$pictureAnimal) {
+        return new JsonResponse(['error' => 'Image not found'], 404);
+    }
+
+    $animal = $pictureAnimal->getAnimal();
+
+    if (!$animal) {
+        return new JsonResponse(['error' => 'Animal not found'], 404);
+    }
+
+    $picturePath = $pictureAnimal->getFileName();
+    $monitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+
+    $data = [
+        'name' => $animal->getName(),
+        'picture' => $picturePath ? '/uploads/' . $picturePath : null,
+        'state' => $monitoring ? $monitoring->getState() : 'Unknown',
+    ];
+
+    return new JsonResponse($data);
+    }
 }
+
+
+
+

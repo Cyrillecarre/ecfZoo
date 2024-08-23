@@ -239,4 +239,42 @@
     transform: scale(0.7);
 }
 
+/* div au clic */
+
+.animalDetailsContainer {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.animalDetailsContainer h2 {
+    margin-top: 0;
+}
+
+.animalImage img {
+    max-width: 100%;
+    height: auto;
+}
+
+.animalInfo p {
+    margin: 10px 0;
+}
+
+.pictureDe {
+    display: flex;
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.pictureDe img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
