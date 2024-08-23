@@ -325,5 +325,95 @@ class VeterinaryController extends AbstractController
             'data' => $data,
         ]);
     }
+    #[Route('/dashboard', name: 'app_veterinaryDashboard', methods: ['GET'])]
+    public function dashboard(MonitoringRepository $monitoringRepository, AnimalRepository $animalRepository): Response
+    {
 
+        $animalStats = [
+            'Bonne santé' => $monitoringRepository->count(['state' => 'Bonne santé']),
+            'Malade' => $monitoringRepository->count(['state' => 'Malade']),
+            'En convalescence' => $monitoringRepository->count(['state' => 'En convalescence']),
+            'Blessé' => $monitoringRepository->count(['state' => 'Blessé']),
+        ];
+    
+        $animalsTropical = $animalRepository->createQueryBuilder('a')
+            ->innerJoin('a.area', 'ar')
+            ->where('ar.name = :zone')
+            ->setParameter('zone', 'Tropical')
+            ->getQuery()
+            ->getResult();
+    
+        $animalTropical = [
+            'Bonne santé' => 0,
+            'Malade' => 0,
+            'En convalescence' => 0,
+            'Blessé' => 0,
+        ];
+    
+        foreach ($animalsTropical as $animal) {
+            $latestMonitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+            if ($latestMonitoring) {
+                $state = $latestMonitoring->getState();
+                if (isset($animalTropical[$state])) {
+                    $animalTropical[$state]++;
+                }
+            }
+        }
+
+        $animalsSavane = $animalRepository->createQueryBuilder('a')
+            ->innerJoin('a.area', 'ar')
+            ->where('ar.name = :zone')
+            ->setParameter('zone', 'Savane')
+            ->getQuery()
+            ->getResult();
+    
+        $animalSavane = [
+            'Bonne santé' => 0,
+            'Malade' => 0,
+            'En convalescence' => 0,
+            'Blessé' => 0,
+        ];
+    
+        foreach ($animalsSavane as $animal) {
+            $latestMonitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+            if ($latestMonitoring) {
+                $state = $latestMonitoring->getState();
+                if (isset($animalSavane[$state])) {
+                    $animalSavane[$state]++;
+                }
+            }
+        }
+
+        $animalsDesert = $animalRepository->createQueryBuilder('a')
+            ->innerJoin('a.area', 'ar')
+            ->where('ar.name = :zone')
+            ->setParameter('zone', 'Desert')
+            ->getQuery()
+            ->getResult();
+    
+        $animalDesert = [
+            'Bonne santé' => 0,
+            'Malade' => 0,
+            'En convalescence' => 0,
+            'Blessé' => 0,
+        ];
+    
+        foreach ($animalsDesert as $animal) {
+            $latestMonitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+            if ($latestMonitoring) {
+                $state = $latestMonitoring->getState();
+                if (isset($animalDesert[$state])) {
+                    $animalDesert[$state]++;
+                }
+            }
+        }
+
+    return $this->render('veterinary/dashboard.html.twig', [
+        'animalStats' => $animalStats,
+        'animalTropical' => $animalTropical,
+        'animalSavane' => $animalSavane,
+        'animalDesert' => $animalDesert,
+    ]);
+
+    }
 }
