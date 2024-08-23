@@ -16,28 +16,17 @@ class MonitoringRepository extends ServiceEntityRepository
         parent::__construct($registry, Monitoring::class);
     }
 
-    //    /**
-    //     * @return Monitoring[] Returns an array of Monitoring objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Monitoring
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function countByAreaAndState(string $area, string $state): int
+    {
+    return $this->createQueryBuilder('m')
+        ->select('count(m.id)')
+        ->join('m.animal', 'a')
+        ->join('a.area', 'ar')
+        ->where('ar.name = :area')
+        ->andWhere('m.state = :state')
+        ->setParameter('area', $area)
+        ->setParameter('state', $state)
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
 }

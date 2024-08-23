@@ -1,0 +1,57 @@
+#animalChartGeneral {
+    width: 30rem;
+    height: 30rem;
+    margin: 0 auto;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+}
+
+#animalChartTropical {
+    width: 20rem;
+    height: 20rem;
+    margin: 0 auto;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+}
+
+#animalChartSavane {
+    width: 20rem;
+    height: 20rem;
+    margin: 0 auto;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+}
+
+#animalChartDesert {
+    width: 20rem;
+    height: 20rem;
+    margin: 0 auto;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+}
+
+.chart {
+    max-width: 30rem;
+    max-height: 30rem;
+}
+
+.titre {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
