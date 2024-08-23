@@ -293,11 +293,9 @@ class VeterinaryController extends AbstractController
     #[Route('/animal/{id}/recommandations', name: 'app_animal_recommandations', methods: ['GET'])]
     public function showRecommandationsForAnimal(int $id, RecommandationVeterinaryRepository $recommandationVeterinaryRepository, AnimalRepository $animalRepository, MonitoringRepository $monitoringRepository): Response
     {
-        $animal = $animalRepository->findAll();
-        $recommandations = $recommandationVeterinaryRepository->findBy(['Animal' => $id],['date' => 'DESC']);
+        $animal = $animalRepository->find($id);
+        $recommandations = $recommandationVeterinaryRepository->findBy(['Animal' => $animal], ['date' => 'DESC']);
         $monitorings = $monitoringRepository->findBy(['animal' => $animal], ['date' => 'DESC']);
-
-        $zone = $recommandations[0]->getAnimal()->getArea()->getName();
 
         return $this->render('veterinary/animal_recommandations.html.twig', [
             'recommandations' => $recommandations,
