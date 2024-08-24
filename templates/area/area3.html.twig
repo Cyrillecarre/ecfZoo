@@ -31,7 +31,7 @@
                     <h3 class="animalName">{{ animal.name }}</h3>
                     <div class="animalImages">
                         {% for picture in animal.pictureAnimals %}
-                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" class="animalImage">
+                            <img src="{{ asset('uploads/' ~ picture.fileName) }}" alt="{{ animal.name }}" class="animalImage" onclick="showAnimalDetails({{ picture.id }})">
                         {% endfor %}
                     </div>
                 </div>
@@ -42,10 +42,13 @@
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-    </div>    
+    </div> 
+    <div id="animalDetails" class="animalDetailsContainer hidden">
+
+    </div>   
     <a href="{{ path('app_home') }}" class="btnArea" id="backButton">Retour</a>
-    </div>
     <div class="backgroundArea3"></div>
+</div>
 </main>
 {% include 'footer.html.twig' %}
 {% endblock %}

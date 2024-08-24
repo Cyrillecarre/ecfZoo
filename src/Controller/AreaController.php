@@ -184,10 +184,8 @@ class AreaController extends AbstractController
         return new JsonResponse(['error' => 'Animal not found'], 404);
     }
 
-    // Trouver la recommandation vétérinaire la plus récente pour l'animal
     $recommandationVeterinary = $recommandationVeterinaryRepository->findOneBy(['Animal' => $animal], ['date' => 'DESC']);
 
-    // Récupérer la nourriture associée à la recommandation vétérinaire
     $foods = $recommandationVeterinary ? $recommandationVeterinary->getFoods() : [];
 
     $foodDetails = [];
