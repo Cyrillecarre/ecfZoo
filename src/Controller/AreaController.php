@@ -19,6 +19,8 @@ use App\Repository\MonitoringRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\PictureAnimalRepository;
 use App\Entity\PictureAnimal;
+use App\Repository\RecommandationVeterinaryRepository;
+use App\Service\RecommandationVeterinary;
 
 
 #[Route('/area')]
@@ -168,7 +170,7 @@ class AreaController extends AbstractController
     }
 
     #[Route('/animal-details/{id}', name: 'animal_details', methods: ['GET'])]
-    public function getAnimalDetails(int $id, PictureAnimalRepository $pictureAnimalRepository, MonitoringRepository $monitoringRepository): JsonResponse
+    public function getAnimalDetails(int $id, PictureAnimalRepository $pictureAnimalRepository, MonitoringRepository $monitoringRepository, AnimalRepository $animalRepository, RecommandationVeterinaryRepository $recommandationVeterinaryRepository): JsonResponse
     {
     $pictureAnimal = $pictureAnimalRepository->find($id);
 
@@ -182,16 +184,29 @@ class AreaController extends AbstractController
         return new JsonResponse(['error' => 'Animal not found'], 404);
     }
 
-    $picturePath = $pictureAnimal->getFileName();
-    $monitoring = $monitoringRepository->findOneBy(['animal' => $animal], ['date' => 'DESC']);
+    // Trouver la recommandation vétérinaire la plus récente pour l'animal
+    $recommandationVeterinary = $recommandationVeterinaryRepository->findOneBy(['Animal' => $animal], ['date' => 'DESC']);
+
+    // Récupérer la nourriture associée à la recommandation vétérinaire
+    $foods = $recommandationVeterinary ? $recommandationVeterinary->getFoods() : [];
+
+    $foodDetails = [];
+    foreach ($foods as $food) {
+    $foodDetails[] = [
+        'name' => $food->getName(),
+        'quantity' => $food->getQuantity(),
+    ];
+}
 
     $data = [
         'name' => $animal->getName(),
-        'picture' => $picturePath ? '/uploads/' . $picturePath : null,
-        'state' => $monitoring ? $monitoring->getState() : 'Unknown',
+        'picture' => $animal->getPictureAnimals()->first() ? '/uploads/' . $animal->getPictureAnimals()->first()->getFileName() : null,
+        'state' => $recommandationVeterinary ? $recommandationVeterinary->getState() : 'Unknown',
+        'foods' => $foodDetails ?: ['No food information available'],
     ];
 
     return new JsonResponse($data);
+
     }
 }
 
