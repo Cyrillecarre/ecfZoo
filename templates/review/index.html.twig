@@ -30,6 +30,11 @@
             <span class="star">&#9733;</span>
         </div>
     </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="reviews-grid">
         {% for review in reviews %}
             <div class="review-card">

@@ -45,6 +45,7 @@ class ReviewController extends AbstractController
 
             $entityManager->persist($review);
             $entityManager->flush();
+            $this->addFlash('success', 'Votre commentaire a été envoyé avec succès !');
 
             return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
         }
