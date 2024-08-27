@@ -345,4 +345,13 @@
     animation-delay: 1s;
 }
 
+.animalDetails p:nth-child(5),
+.animalDetails ul:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+.animalDetails p.popularity {
+    animation-delay: 1.5s;
+}
+
 

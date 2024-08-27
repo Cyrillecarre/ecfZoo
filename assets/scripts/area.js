@@ -61,7 +61,7 @@
                     <p><strong>État de santé :</strong> ${data.state}</p>
                     <p><strong>Nourriture :</strong></p>
                     ${data.foods.map((food, index) => `<p style="animation-delay: ${1.2 + (index * 0.2)}s">${food.name} - Quantité : ${food.quantity} grammes</p>`).join('')}
-                    <p><strong>Popularité :</strong> <span id="viewCount">0</span></p>
+                    <p class="popularity"><strong>Popularité :</strong><span id="viewCount">0</span></p>
                 </div>
                 `;
                 
