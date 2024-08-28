@@ -1,0 +1,5 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        # Uncomment the following line if you want to add a suffix like '_test' to your database name automatically
+        # dbname_suffix: '_test'
