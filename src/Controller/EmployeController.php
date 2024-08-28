@@ -16,12 +16,20 @@ use App\Repository\AnimalRepository;
 use App\Entity\Monitoring;
 use App\Form\MonitoringType;
 use App\Repository\MonitoringRepository;
-
+use App\Document\AnimalCounter;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 
 #[Route('/employe')]
 class EmployeController extends AbstractController
 {
+    private $documentManager;
+
+    public function __construct(DocumentManager $documentManager)
+    {
+        $this->documentManager = $documentManager;
+    }
+
     #[Route('/', name: 'app_employe_index', methods: ['GET'])]
     public function index(EmployeRepository $employeRepository): Response
     {
@@ -272,7 +280,7 @@ class EmployeController extends AbstractController
     }
 
     #[Route('/dashboard', name: 'app_employeDashboard', methods: ['GET'])]
-    public function dashboard(MonitoringRepository $monitoringRepository, AnimalRepository $animalRepository): Response
+    public function dashboard(MonitoringRepository $monitoringRepository, AnimalRepository $animalRepository, DocumentManager $documentManager): Response
     {
 
         $animalStats = [
@@ -353,12 +361,44 @@ class EmployeController extends AbstractController
                 }
             }
         }
+        $animalCounters = $this->documentManager->getRepository(AnimalCounter::class)->findAll();
+    
+        $animalPopularity = [];
+        foreach ($animalCounters as $counter) {
+            $animal = $animalRepository->find($counter->getAnimalId());
+            if ($animal) {
+                $animalPopularity[$animal->getName()] = $counter->getCount();
+            }
+        }
+
+        $areas = ['Tropical', 'Savane', 'Desert'];
+    $popularityByArea = [];
+
+    foreach ($areas as $areaName) {
+        $animals = $animalRepository->createQueryBuilder('a')
+            ->innerJoin('a.area', 'ar')
+            ->where('ar.name = :zone')
+            ->setParameter('zone', $areaName)
+            ->getQuery()
+            ->getResult();
+
+        $popularityByArea[$areaName] = [];
+
+        foreach ($animals as $animal) {
+            $counter = $documentManager->getRepository(AnimalCounter::class)
+                ->findOneBy(['animalId' => $animal->getId()]);
+
+            $popularityByArea[$areaName][$animal->getName()] = $counter ? $counter->getCount() : 0;
+        }
+    }
 
     return $this->render('employe/dashboard.html.twig', [
         'animalStats' => $animalStats,
         'animalTropical' => $animalTropical,
         'animalSavane' => $animalSavane,
         'animalDesert' => $animalDesert,
+        'animalPopularity' => $animalPopularity,
+        'popularityByArea' => $popularityByArea,
     ]);
     }
 }

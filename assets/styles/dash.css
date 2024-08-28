@@ -6,7 +6,7 @@
     padding-bottom: 3rem;
 }
 
-#animalChartTropical {
+#animalChartTropical, #animalChartSavane, #animalChartDesert {
     width: 20rem;
     height: 20rem;
     margin: 0 auto;
@@ -14,17 +14,9 @@
     padding-bottom: 3rem;
 }
 
-#animalChartSavane {
+#popularityChartTropical, #popularityChartSavane, #popularityChartDesert {
     width: 20rem;
-    height: 20rem;
-    margin: 0 auto;
-    padding-top: 1rem;
-    padding-bottom: 3rem;
-}
-
-#animalChartDesert {
-    width: 20rem;
-    height: 20rem;
+    height: 18rem !important;
     margin: 0 auto;
     padding-top: 1rem;
     padding-bottom: 3rem;
@@ -47,7 +39,7 @@
 
 .chart {
     max-width: 30rem;
-    max-height: 30rem;
+    max-height: 35rem;
 }
 
 .titre {
