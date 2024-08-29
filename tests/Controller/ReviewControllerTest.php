@@ -46,9 +46,6 @@ class ReviewControllerTest extends WebTestCase
 
     $client->submit($form);
     $this->assertResponseRedirects('/review/');
-
     $client->followRedirect();
-
-
 }
 }
