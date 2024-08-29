@@ -23,7 +23,6 @@ class AnimalCountController extends AbstractController
     #[Route('/area/{areaId}', name: 'area_show', methods: ['GET'])]
     public function show(int $areaId): Response
     {
-        // Utilise l'entityManager pour récupérer les animaux
         $animals = $this->entityManager->getRepository(Animal::class)->findBy(['area' => $areaId]);
 
         $animalCounts = [];
