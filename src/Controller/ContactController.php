@@ -17,7 +17,6 @@ class ContactController extends AbstractController
     {
 
         $form = $this->createForm(ContactType::class);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -33,7 +32,7 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', 'Votre message a été envoyé avec succès.');
 
-            return $this->redirectToRoute('contact');
+            return $this->redirectToRoute('app_contact');
         }
 
         return $this->render('contact/index.html.twig', [
