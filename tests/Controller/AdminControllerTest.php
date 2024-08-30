@@ -37,6 +37,13 @@ class AdminControllerTest extends PantherTestCase
         $client->request('GET', '/admin');
         
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('.header');
+        $this->assertSelectorExists('.topBarLogo');
+        $this->assertSelectorExists('.top-bar');
+        $this->assertSelectorExists('.top-nav');
+        $this->assertSelectorExists('.main-container');
+        $this->assertSelectorExists('.sidebar');
+        $this->assertSelectorExists('.sidebar-nav');
     }
 
     public function testAddEmployee(): void
@@ -174,5 +181,44 @@ class AdminControllerTest extends PantherTestCase
         $this->assertSelectorTextContains('h1', 'Liste des Animaux par Zone');
         $this->assertSelectorExists('.listeAnimauxContent'); 
         $this->assertSelectorExists('.gridContainer');
+        $this->assertSelectorExists('.gridItem');
+    }
+
+    public function testIndexService(): void
+    {
+        $client = static::createPantherClient();
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+            'email' => 'cyrille@gmail.com',
+            'password' => 'cyrille',
+        ]));
+
+        $client->request('GET', '/service');
+        
+        $this->assertSelectorExists('.prestation');
+        $this->assertSelectorExists('.article2');
+        $this->assertSelectorExists('.service-item');
+        $this->assertSelectorExists('.titrePrestationContent');
+        $this->assertSelectorExists('.text');
+    }
+
+    public function testIndexReview(): void
+    {
+        $client = static::createPantherClient();
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+            'email' => 'cyrille@gmail.com',
+            'password' => 'cyrille',
+        ]));
+
+        $client->request('GET', '/admin_review');
+        
+        $this->assertSelectorExists('.mainReview');
+        $this->assertSelectorExists('.titreReview');
+        $this->assertSelectorExists('.addReviewContent');
+        $this->assertSelectorExists('.addReview');
+        $this->assertSelectorExists('.reviewTotal');
+        $this->assertSelectorExists('.starTitre');
+        $this->assertSelectorExists('.table');
     }
 }
