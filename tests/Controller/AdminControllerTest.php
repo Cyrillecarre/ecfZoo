@@ -221,4 +221,38 @@ class AdminControllerTest extends PantherTestCase
         $this->assertSelectorExists('.starTitre');
         $this->assertSelectorExists('.table');
     }
+
+    public function testDashboard(): void
+    {
+        $client = static::createPantherClient();
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+            'email' => 'cyrille@gmail.com',
+            'password' => 'cyrille',
+        ]));
+
+        $client->request('GET', '/dashboard');
+        
+        $this->assertSelectorExists('.titre');
+        $this->assertSelectorExists('.chart-container');
+        $this->assertSelectorExists('.flex-container');
+    }
+    public function testPointSante(): void
+    {
+        $client = static::createPantherClient();
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+            'email' => 'cyrille@gmail.com',
+            'password' => 'cyrille',
+        ]));
+
+        $client->request('GET', '/admin/pointsante');
+        
+        $this->assertSelectorExists('.titre');
+        $this->assertSelectorExists('.animal-card');
+        $this->assertSelectorExists('.animal-header');
+        $this->assertSelectorExists('.card-container');
+        $this->assertSelectorExists('.veterinary-card');
+        $this->assertSelectorExists('.employee-card');
+    }
 }
