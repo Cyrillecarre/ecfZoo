@@ -47,9 +47,10 @@ class AdminControllerTest extends PantherTestCase
         'email' => 'cyrille@gmail.com',
         'password' => 'cyrille',
         ]));
+        $this->assertStringContainsString('Employés', $client->getPageSource());
 
         $link = $crawler->filterXPath('//aside[@class="sidebar"]//ul[@class="sidebar-nav"]//li[@class="sidebarLi"]//a[contains(text(), "Employés")]')->link();
-        $crawler = $client->click($link);   
+        $crawler = $client->click($link);  
 
         $client->executeScript('document.getElementById("addEmployeeSection").style.display = "block";');
 
@@ -89,4 +90,73 @@ class AdminControllerTest extends PantherTestCase
         $this->fail("Le formulaire de suppression pour l'email '{$email}' n'a pas été trouvé.");
     }
     }
-}/* End of AdminControllerTest.php */
+
+    public function testAddVeterinary(): void
+    {
+        $client = static::createPantherClient();
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+        'email' => 'cyrille@gmail.com',
+        'password' => 'cyrille',
+        ]));
+
+        $this->assertStringContainsString('Vétérinaires', $client->getPageSource());
+
+        $link = $crawler->filterXPath('//aside[@class="sidebar"]//ul[@class="sidebar-nav"]//li[@class="sidebarLi"]//a[contains(text(), "Vétérinaires")]')->link();
+        $crawler = $client->click($link);   
+
+        $client->executeScript('document.getElementById("addVeterinarySection").style.display = "block";');
+
+
+        $form = $crawler->selectButton('Enregistrer')->form([
+            'veterinary[email]' => 'john.doe@example.com',
+            'veterinary[password]' => 'pass/-mRc76',
+        ]);
+
+        $crawler = $client->submit($form);
+        $crawler = $client->request('GET', $client->getCurrentURL());
+
+        $link = $crawler->filterXPath('//aside[@class="sidebar"]//ul[@class="sidebar-nav"]//li[@class="sidebarLi"]//a[contains(text(), "Vétérinaires")]')->link();
+        $crawler = $client->click($link); 
+        $client->waitFor('#viewVeterinarySection', 2);
+        $client->executeScript('document.getElementById("viewVeterinarySection").style.display = "block";');
+        $content = $crawler->html();
+        $this->assertStringContainsString('john.doe@example.com', $content);
+        $this->removeTestVeterinary($client,'john.doe@example.com');
+    }
+
+    private function removeTestVeterinary($client, string $email): void
+    {
+        $crawler = $client->request('GET', '/admin/veterinaries');
+        $form = $crawler->filterXPath("//p[text()='{$email}']/following-sibling::div//form")->first();
+
+    if ($form->count() > 0) {
+        $form = $form->form();
+
+        $client->executeScript('window.confirm = function() { return true; }');
+        $client->submit($form);
+
+        $crawler = $client->request('GET', $client->getCurrentURL());
+        $content = $crawler->html();
+        $this->assertStringNotContainsString($email, $content);
+    } else {
+        $this->fail("Le formulaire de suppression pour l'email '{$email}' n'a pas été trouvé.");
+    }
+    }
+    public function testIndexArea(): void
+    {
+        $client = static::createPantherClient();
+
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+            'email' => 'cyrille@gmail.com',
+            'password' => 'cyrille',
+        ]));
+
+        $client->request('GET', '/admin/area');
+
+        $client->waitFor('.listeArea');
+        $this->assertSelectorTextContains('h1', 'Liste des Zones');
+        $this->assertSelectorExists('.listeArea');
+    }
+}
