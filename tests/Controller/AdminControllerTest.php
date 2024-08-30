@@ -89,4 +89,4 @@ class AdminControllerTest extends PantherTestCase
         $this->fail("Le formulaire de suppression pour l'email '{$email}' n'a pas été trouvé.");
     }
     }
-}
+}/* End of AdminControllerTest.php */
