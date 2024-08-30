@@ -159,4 +159,20 @@ class AdminControllerTest extends PantherTestCase
         $this->assertSelectorTextContains('h1', 'Liste des Zones');
         $this->assertSelectorExists('.listeArea');
     }
+
+    public function testIndexAnimaux(): void
+    {
+        $client = static::createPantherClient();
+        $crawler = $client->request('GET', '/login');
+        $crawler = $client->submit($crawler->selectButton('Connexion')->form([
+            'email' => 'cyrille@gmail.com',
+            'password' => 'cyrille',
+        ]));
+
+        $client->request('GET', '/admin/animaux');
+
+        $this->assertSelectorTextContains('h1', 'Liste des Animaux par Zone');
+        $this->assertSelectorExists('.listeAnimauxContent'); 
+        $this->assertSelectorExists('.gridContainer');
+    }
 }
