@@ -108,4 +108,16 @@ class EmployeControllerTest extends WebTestCase
         $this->assertSelectorExists('.veterinary-card');
         $this->assertSelectorExists('.employee-card');
     }
+
+    public function testDashboard(): void
+    {
+        $client = static::createClient();
+        $this->authenticateAsEmploye($client);
+        
+        $client->request('GET', '/dashboard');
+        
+        $this->assertSelectorExists('.titre');
+        $this->assertSelectorExists('.chart-container');
+        $this->assertSelectorExists('.flex-container');
+    }
 }
