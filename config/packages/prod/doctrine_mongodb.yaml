@@ -1,0 +1,4 @@
+# config/packages/prod/doctrine_mongodb.yaml
+doctrine_mongodb:
+    connections: ~
+    document_managers: ~
