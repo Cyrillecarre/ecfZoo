@@ -80,9 +80,9 @@ class ServiceControllerTest extends WebTestCase
 
     $client->followRedirect();
 
-    $imagePath = $this->uploadsDir . '/areaS1.jpg';
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
-        }
+    // $imagePath = $this->uploadsDir . '/areaS1.jpg';
+    //    if (file_exists($imagePath)) {
+    //        unlink($imagePath);
+    //    }
     }
 }
