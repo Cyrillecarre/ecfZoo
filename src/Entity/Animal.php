@@ -25,24 +25,19 @@ class Animal
     #[ORM\JoinColumn(nullable: false)]
     private ?Area $area = null;
 
-    /**
-     * @var Collection<int, PictureAnimal>
-     */
-    #[ORM\OneToMany(targetEntity: PictureAnimal::class, mappedBy: 'Animal', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Animal', targetEntity: PictureAnimal::class, orphanRemoval: true)]
     private Collection $pictureAnimals;
 
-    #[ORM\OneToOne(mappedBy: 'Animal', cascade: ['persist', 'remove'])]
-    private ?RecommandationVeterinary $recommandationVeterinary = null;
+    #[ORM\OneToMany(mappedBy: 'Animal', targetEntity: RecommandationVeterinary::class)]
+    private Collection $recommandationVeterinary;
 
-    /**
-     * @var Collection<int, Monitoring>
-     */
-    #[ORM\OneToMany(targetEntity: Monitoring::class, mappedBy: 'animal')]
+    #[ORM\OneToMany(mappedBy: 'animal', targetEntity: Monitoring::class)]
     private Collection $monitorings;
 
     public function __construct()
     {
         $this->pictureAnimals = new ArrayCollection();
+        $this->recommandationVeterinary = new ArrayCollection();
         $this->monitorings = new ArrayCollection();
     }
 
@@ -56,10 +51,9 @@ class Animal
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -68,10 +62,9 @@ class Animal
         return $this->race;
     }
 
-    public function setRace(string $race): static
+    public function setRace(string $race): self
     {
         $this->race = $race;
-
         return $this;
     }
 
@@ -80,10 +73,9 @@ class Animal
         return $this->area;
     }
 
-    public function setArea(?Area $area): static
+    public function setArea(?Area $area): self
     {
         $this->area = $area;
-
         return $this;
     }
 
@@ -95,41 +87,30 @@ class Animal
         return $this->pictureAnimals;
     }
 
-    public function addPictureAnimal(PictureAnimal $pictureAnimal): static
+    public function addPictureAnimal(PictureAnimal $pictureAnimal): self
     {
         if (!$this->pictureAnimals->contains($pictureAnimal)) {
-            $this->pictureAnimals->add($pictureAnimal);
+            $this->pictureAnimals[] = $pictureAnimal;
             $pictureAnimal->setAnimal($this);
         }
 
         return $this;
     }
 
-    public function removePictureAnimal(PictureAnimal $pictureAnimal): static
-    {
-        if ($this->pictureAnimals->removeElement($pictureAnimal)) {
-            // set the owning side to null (unless already changed)
-            if ($pictureAnimal->getAnimal() === $this) {
-                $pictureAnimal->setAnimal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getRecommandationVeterinary(): ?RecommandationVeterinary
+    /**
+     * @return Collection<int, RecommandationVeterinary>
+     */
+    public function getRecommandationVeterinary(): Collection
     {
         return $this->recommandationVeterinary;
     }
 
-    public function setRecommandationVeterinary(RecommandationVeterinary $recommandationVeterinary): static
+    public function addRecommandationVeterinary(RecommandationVeterinary $recommandationVeterinary): self
     {
-        // set the owning side of the relation if necessary
-        if ($recommandationVeterinary->getAnimal() !== $this) {
+        if (!$this->recommandationVeterinary->contains($recommandationVeterinary)) {
+            $this->recommandationVeterinary[] = $recommandationVeterinary;
             $recommandationVeterinary->setAnimal($this);
         }
-
-        $this->recommandationVeterinary = $recommandationVeterinary;
 
         return $this;
     }
@@ -142,23 +123,11 @@ class Animal
         return $this->monitorings;
     }
 
-    public function addMonitoring(Monitoring $monitoring): static
+    public function addMonitoring(Monitoring $monitoring): self
     {
         if (!$this->monitorings->contains($monitoring)) {
-            $this->monitorings->add($monitoring);
+            $this->monitorings[] = $monitoring;
             $monitoring->setAnimal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMonitoring(Monitoring $monitoring): static
-    {
-        if ($this->monitorings->removeElement($monitoring)) {
-            // set the owning side to null (unless already changed)
-            if ($monitoring->getAnimal() === $this) {
-                $monitoring->setAnimal(null);
-            }
         }
 
         return $this;

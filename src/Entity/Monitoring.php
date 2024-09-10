@@ -32,6 +32,7 @@ class Monitoring
     private ?string $comment = null;
 
     #[ORM\OneToOne(inversedBy: 'monitoring', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?RecommandationVeterinary $recommandationVeterinary = null;
 
     #[ORM\ManyToOne(inversedBy: 'monitorings')]

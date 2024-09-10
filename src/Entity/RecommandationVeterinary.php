@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\RecommandationVeterinaryRepository;
@@ -30,13 +31,10 @@ class RecommandationVeterinary
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $report = null;
 
-    #[ORM\OneToOne(inversedBy: 'recommandationVeterinary', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'recommandationVeterinary', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Animal $Animal = null;
 
-    /**
-     * @var Collection<int, Food>
-     */
     #[ORM\ManyToMany(targetEntity: Food::class, inversedBy: 'recommandationVeterinaries', cascade: ['persist'])]
     private Collection $foods;
 
@@ -58,7 +56,7 @@ class RecommandationVeterinary
         return $this->medicine;
     }
 
-    public function setMedicine(?string $medicine): self
+    public function setMedicine(?string $medicine): static
     {
         $this->medicine = $medicine;
 
@@ -70,7 +68,7 @@ class RecommandationVeterinary
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
 
@@ -82,7 +80,7 @@ class RecommandationVeterinary
         return $this->state;
     }
 
-    public function setState(string $state): self
+    public function setState(string $state): static
     {
         $this->state = $state;
 
@@ -94,7 +92,7 @@ class RecommandationVeterinary
         return $this->recommandation;
     }
 
-    public function setRecommandation(?string $recommandation): self
+    public function setRecommandation(?string $recommandation): static
     {
         $this->recommandation = $recommandation;
 
@@ -106,7 +104,7 @@ class RecommandationVeterinary
         return $this->report;
     }
 
-    public function setReport(?string $report): self
+    public function setReport(?string $report): static
     {
         $this->report = $report;
 
@@ -118,7 +116,7 @@ class RecommandationVeterinary
         return $this->Animal;
     }
 
-    public function setAnimal(Animal $Animal): self
+    public function setAnimal(?Animal $Animal): static
     {
         $this->Animal = $Animal;
 
@@ -133,7 +131,7 @@ class RecommandationVeterinary
         return $this->foods;
     }
 
-    public function addFood(Food $food): self
+    public function addFood(Food $food): static
     {
         if (!$this->foods->contains($food)) {
             $this->foods->add($food);
@@ -142,7 +140,7 @@ class RecommandationVeterinary
         return $this;
     }
 
-    public function removeFood(Food $food): self
+    public function removeFood(Food $food): static
     {
         $this->foods->removeElement($food);
 
@@ -156,12 +154,6 @@ class RecommandationVeterinary
 
     public function setMonitoring(?Monitoring $monitoring): static
     {
-        // unset the owning side of the relation if necessary
-        if ($monitoring === null && $this->monitoring !== null) {
-            $this->monitoring->setRecommandationVeterinary(null);
-        }
-
-        // set the owning side of the relation if necessary
         if ($monitoring !== null && $monitoring->getRecommandationVeterinary() !== $this) {
             $monitoring->setRecommandationVeterinary($this);
         }

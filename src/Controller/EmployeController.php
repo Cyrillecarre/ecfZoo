@@ -118,40 +118,54 @@ class EmployeController extends AbstractController
             throw $this->createNotFoundException('Animal non trouvé');
         }
     
-        $recommandationVeterinary = $recommandationVeterinaryRepository->findOneBy(['Animal' => $animal]);
+        $recommandationVeterinary = $recommandationVeterinaryRepository->createQueryBuilder('r')
+            ->where('r.Animal = :animal')
+            ->setParameter('animal', $animal)
+            ->orderBy('r.date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     
         if (!$recommandationVeterinary) {
             throw $this->createNotFoundException('Recommandation vétérinaire non trouvée pour cet animal');
         }
 
-        $existingMonitoring = $monitoringRepository->findOneBy(['recommandationVeterinary' => $recommandationVeterinary]);
-    
-        if ($existingMonitoring) {
-            return $this->render('employe/monitoringExist.html.twig', [
-                'monitoring' => $existingMonitoring,
-                'animal' => $animal,
-            ]);
-        }
-    
+        $existingMonitoring = $monitoringRepository->createQueryBuilder('m')
+        ->where('m.recommandationVeterinary = :recommandationVeterinary')
+        ->andWhere('m.date >= :date')
+        ->setParameter('recommandationVeterinary', $recommandationVeterinary)
+        ->setParameter('date', $recommandationVeterinary->getDate())
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+    if ($existingMonitoring) {
+        return $this->render('employe/monitoringExist.html.twig', [
+            'monitoring' => $existingMonitoring,
+            'animal' => $animal,
+        ]);
+    } else {
+        // Si aucun monitoring récent n'existe, créer un nouveau
         $monitoring = new Monitoring();
         $monitoring->setAnimal($animal);
         $monitoring->setRecommandationVeterinary($recommandationVeterinary);
-    
+
         $form = $this->createForm(MonitoringType::class, $monitoring);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($monitoring);
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('app_point_sante');
         }
-    
+
         return $this->render('employe/monitoringNew.html.twig', [
             'monitoring' => $monitoring,
             'form' => $form->createView(),
             'recommandation_veterinary' => $recommandationVeterinary,
         ]);
+        }
     }
 
     #[Route('/{id}/edit', name: 'app_employeMonitoring_edit', methods: ['GET', 'POST'])]
